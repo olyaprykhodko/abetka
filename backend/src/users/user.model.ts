@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-@Table
+@Table({ tableName: 'Users' })
 export class User extends Model<User> {
   @Column({
     type: DataType.INTEGER,
@@ -11,9 +11,15 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   name: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  username: string;
 
   @Column({
     type: DataType.STRING,
@@ -29,8 +35,8 @@ export class User extends Model<User> {
   password: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.ENUM('student', 'teacher'),
     allowNull: false,
   })
-  role: string;
+  role: 'student' | 'teacher' | 'admin';
 }

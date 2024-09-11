@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users/user.model';
 import { Teacher } from './teachers/teacher.model';
@@ -30,6 +31,7 @@ import { Payment } from './payments/payment.model';
       Review,
       Payment,
     ]),
+    AuthModule,
   ],
 })
 export class AppModule {}
