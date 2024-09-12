@@ -1,44 +1,50 @@
 services:
   backend:
-    container_name: ${PROJECT_TAG}-backend
+    container_name: "${PROJECT_TAG:-app}-backend"
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
-    volumes:
-      - ./backend:/app
     ports:
-      - "0.0.0.0:3500:3500"
+      - "0.0.0.0:${BACKEND_PORT:-3500}:3500"
     depends_on:
       postgres:
         condition: service_healthy
 
   frontend:
-    container_name: ${PROJECT_TAG}-frontend
+    container_name: "${PROJECT_TAG:-app}-frontend"
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
-    volumes:
-      - ./frontend:/app
     ports:
-      - "0.0.0.0:3000:3000"
+      - "0.0.0.0:${FRONTEND_PORT:-3000}:3000"
 
   postgres:
     image: postgres:16
-    container_name: postgres
+    container_name: "${PROJECT_TAG:-app}-postgres"
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    restart: unless-stopped
+    env_file:
+      - .env
     ports:
-      - "0.0.0.0:5432:5432"
+      - "127.0.0.1:${DB_PORT:-5432}:5432/tcp"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - "postgres-data:/var/lib/postgresql/data"
+    healthcheck:
+      test:
+        ["CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'"]
+      interval: 120s
+      timeout: 5s
+      retries: 2
+      start_period: 30s
 
 volumes:
   postgres-data:
