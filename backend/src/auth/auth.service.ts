@@ -29,7 +29,7 @@ export class AuthService {
     email: string,
     password: string,
     role: 'student' | 'teacher' | 'admin',
-  ): Promise<User> {
+  ): Promise<{ user: User; token: string }> {
     const hashPassword = await bcrypt.hash(password, 3);
     try {
       const user = await this.userModel.create<User>({
@@ -38,7 +38,8 @@ export class AuthService {
         password: hashPassword,
         role,
       } as User);
-      return user;
+      const token = await this.jwtService.generateToken(user);
+      return { user, token };
     } catch (error) {
       console.error('Виникла помилка при реєстрації користувача', error);
       throw new Error('Виникла помилка при реєстрації користувача');

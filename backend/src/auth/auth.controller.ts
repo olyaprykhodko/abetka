@@ -18,11 +18,12 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() registerDto: RegisterUserDto) {
-    return this.authService.registerUser(
+    const { user, token } = await this.authService.registerUser(
       registerDto.username,
       registerDto.email,
       registerDto.password,
       registerDto.role,
     );
+    return { user, token };
   }
 }
