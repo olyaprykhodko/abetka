@@ -9,7 +9,8 @@ services:
       - .env
     volumes:
       - ./backend:/app
-    ports: '0.0.0.0:3500:3500'
+    ports:
+      - "0.0.0.0:3500:3500"
     depends_on:
       postgres:
         condition: service_healthy
@@ -24,7 +25,8 @@ services:
       - .env
     volumes:
       - ./frontend:/app
-    ports: '0.0.0.0:3000:3000'
+    ports:
+      - "0.0.0.0:3000:3000"
 
   postgres:
     image: postgres:16
@@ -34,7 +36,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - '0.0.0.0:5432:5432'
+      - "0.0.0.0:5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
