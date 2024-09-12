@@ -4,11 +4,11 @@ import axios from 'axios';
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const API_URL = process.env.REACT_APP_API_URL;
+  const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, {
+      const response = await axios.post(`${BACKEND_URL}/auth/login`, {
         username,
         password,
       });

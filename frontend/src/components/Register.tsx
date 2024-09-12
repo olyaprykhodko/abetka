@@ -10,12 +10,12 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await axios.post(`${BACKEND_URL}/auth/register`, {
         username,
         email,
         password,
