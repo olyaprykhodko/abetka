@@ -4,10 +4,11 @@ import axios from 'axios';
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const BACKEND_HOST = process.env.BACKEND_HOST || 'http://localhost:3000';
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', {
+      const response = await axios.post(`${BACKEND_HOST}/auth/login`, {
         username,
         password,
       });

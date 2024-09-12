@@ -9,11 +9,12 @@ const Register: React.FC = () => {
   const [role, setRole] = useState<'student' | 'teacher'>('student');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const BACKEND_HOST = process.env.BACKEND_HOST || 'http://localhost:3000';
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', {
+      const response = await axios.post(`${BACKEND_HOST}/auth/register`, {
         username,
         email,
         password,
