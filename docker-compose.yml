@@ -1,4 +1,31 @@
 services:
+  backend:
+    container_name: ${PROJECT_TAG}-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    ports: '0.0.0.0:3500:3500'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    container_name: ${PROJECT_TAG}-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+    ports: '0.0.0.0:3000:3000'
+
   postgres:
     image: postgres:16
     container_name: postgres
@@ -7,7 +34,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "0.0.0.0:5432:5432"
+      - '0.0.0.0:5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
