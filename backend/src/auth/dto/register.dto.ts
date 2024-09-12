@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, IsEnum } from 'class-validator';
 
 export class RegisterUserDto {
   @IsString()
@@ -16,5 +16,6 @@ export class RegisterUserDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsEnum(['student', 'teacher', 'admin'])
   readonly role: 'student' | 'teacher' | 'admin';
 }

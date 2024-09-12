@@ -8,6 +8,7 @@ import { Booking } from './bookings/booking.model';
 import { Schedule } from './schedules/schedule.model';
 import { Review } from './reviews/review.model';
 import { Payment } from './payments/payment.model';
+import { JwtModule } from './auth/jwt/jwt.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { Payment } from './payments/payment.model';
       Payment,
     ]),
     AuthModule,
+    JwtModule,
   ],
 })
 export class AppModule {}
