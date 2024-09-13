@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { strict } from 'assert';
+import log from 'loglevel';
+log.setDefaultLevel('debug');
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -21,12 +25,27 @@ const Register: React.FC = () => {
         password,
         role,
       });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('registered', 'true');
+      // console.log(response);
+      log.info(response);
+
+      Cookies.set('token', response.data.token, {
+        sameSite: 'strict',
+        expires: 7,
+        // secure: true, // need to add secure: true parameter when deploying and connecting to https
+      });
+      Cookies.set('registered', 'true', {
+        sameSite: 'strict',
+      });
+
+      // console.log(Cookies);
+      log.debug(Cookies);
+
       navigate('/');
-      console.log('Registration successful', response.data);
+      // console.log('Registration successful', response.data);
+      log.info('Registration successful', response.data);
     } catch (err) {
       setError('Registration failed');
+      log.info(err);
     }
   };
 
