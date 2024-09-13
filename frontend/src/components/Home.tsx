@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -5,10 +6,10 @@ const Home: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
-    const registered = localStorage.getItem('registered');
+    const registered = Cookies.get('registered');
     if (registered === 'true') {
       setIsRegistered(true);
-      localStorage.removeItem('registered');
+      Cookies.remove('registered');
     }
   }, []);
 

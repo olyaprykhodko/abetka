@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,8 +13,14 @@ const Login: React.FC = () => {
         username,
         password,
       });
+
       console.log('Login successful', response.data);
-      localStorage.setItem('token', response.data);
+
+      Cookies.set('token', response.data.token, {
+        // secure: true,
+        sameSite: 'strict',
+        expires: 7,
+      });
     } catch (error) {
       console.error('Login failed', error);
     }
