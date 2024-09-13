@@ -27,15 +27,11 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: "${PROJECT_TAG:-app}-postgres"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
     restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "127.0.0.1:${DB_PORT:-5432}:5432/tcp"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432/tcp"
     volumes:
       - "postgres-data:/var/lib/postgresql/data"
     healthcheck:
