@@ -14,7 +14,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  await app.listen(process.env.PORT || 3001);
-  Logger.log(`Server works on port ${process.env.PORT}`);
+  await app.listen(3500);
+  Logger.log("Server works on port 3500");
 }
 bootstrap();
