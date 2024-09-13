@@ -4,10 +4,17 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-      - /app/dist
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app
+          ignore:
+            - ./backend/node_modules/
+            - ./backend/dist/
+        - action: rebuild
+          path: ./backend/package.json
+          target: /app/package.json
     user: root
     restart: unless-stopped
     env_file:
@@ -23,10 +30,17 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/dist
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - ./frontend/node_modules/
+            - ./frontend/dist/
+        - action: rebuild
+          path: ./frontend/package.json
+          target: /app/package.json
     user: root
     restart: unless-stopped
     env_file:

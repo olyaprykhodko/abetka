@@ -17,5 +17,5 @@ openssl rand -base64 32 # generate JWT_SECRET
 ## Run project
 
 ```bash
-docker compose up --detach --build
+docker compose up --build --watch
 ```
