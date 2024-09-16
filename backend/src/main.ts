@@ -15,6 +15,6 @@ async function bootstrap() {
   });
 
   await app.listen(3500);
-  Logger.log("Server works on port 3500");
+  Logger.log('Server works on port 3500');
 }
 bootstrap();
