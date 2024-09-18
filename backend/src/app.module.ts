@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { HealthcheckModule } from './healthcheck/healthcheck.module';
 import { User } from './users/user.model';
 import { Teacher } from './teachers/teacher.model';
 import { Subject } from './subjects/subject.model';
@@ -35,6 +36,7 @@ import { JwtModule } from './auth/jwt/jwt.module';
     ]),
     AuthModule,
     JwtModule,
+    HealthcheckModule,
   ],
 })
 export class AppModule {}
