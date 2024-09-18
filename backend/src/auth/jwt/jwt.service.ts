@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.model';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class JwtService {
@@ -21,7 +22,8 @@ export class JwtService {
       return this.jwtService.verify(token);
     } catch (error) {
       throw new Error(
-        'Ваша сесія вичерпана. Будь ласка, пройдіть аутентифікацію',
+        Logger.error(error) +
+          'Ваша сесія вичерпана. Будь ласка, пройдіть аутентифікацію',
       );
     }
   }
