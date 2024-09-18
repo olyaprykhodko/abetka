@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthProvider';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setIsAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
       const response = await axios.post(`${BACKEND_URL}/auth/login`, {
         username,
         password,
       });
 
+      setIsAuthenticated(true);
       console.log('Login successful', response.data);
 
-      Cookies.set('token', response.data.token, {
+      Cookies.set('jwt', response.data.token, {
         // secure: true,
         sameSite: 'strict',
         expires: 7,
       });
+      navigate('/');
     } catch (error) {
       console.error('Login failed', error);
     }
@@ -80,7 +87,7 @@ const Login: React.FC = () => {
 
           <div>
             <button
-              onClick={handleLogin}
+              type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Увійти

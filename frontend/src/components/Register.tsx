@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { strict } from 'assert';
-import log from 'loglevel';
-log.setDefaultLevel('debug');
+import { useAuth } from '../AuthProvider';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -13,6 +11,7 @@ const Register: React.FC = () => {
   const [role, setRole] = useState<'student' | 'teacher'>('student');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
@@ -25,27 +24,34 @@ const Register: React.FC = () => {
         password,
         role,
       });
-      // console.log(response);
-      log.info(response);
 
-      Cookies.set('token', response.data.token, {
+      Cookies.set('jwt', response.data.token, {
         sameSite: 'strict',
         expires: 7,
-        // secure: true, // need to add secure: true parameter when deploying and connecting to https
+        // secure: true,
       });
+
       Cookies.set('registered', 'true', {
         sameSite: 'strict',
       });
 
-      // console.log(Cookies);
-      log.debug(Cookies);
+      console.info(Cookies);
 
+      setIsAuthenticated(true);
       navigate('/');
-      // console.log('Registration successful', response.data);
-      log.info('Registration successful', response.data);
+
+      console.info(
+        'Registration successful. User is authentificated',
+        response.data,
+      );
+
+      // console.log(
+      //   'Registration successful. User is authentificated',
+      //   response.data,
+      // );
     } catch (err) {
       setError('Registration failed');
-      log.info(err);
+      console.error('Registration error', err);
     }
   };
 
