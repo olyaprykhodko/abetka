@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -6,15 +6,16 @@ import axios from 'axios';
 const navbar = [
   { name: 'Головна', to: '/', current: true },
   { name: 'Знайти репетитора', to: '/find-teacher', current: false },
-  { name: 'Вартість уроків', to: '/pricelist', current: false },
+  { name: 'Вартість уроків', to: '/lessons', current: false },
   { name: 'Про нас', to: '/about', current: false },
 ];
 
 const Navigation: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [newNavbar, setNewNavbar] = useState(navbar);
   const toggleMenu = () => setIsOpen(!isOpen);
-  const navigate = useNavigate();
+  const location = useLocation();
   const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
   useEffect(() => {
@@ -34,6 +35,14 @@ const Navigation: React.FC = () => {
     checkAuthentication();
   }, []);
 
+  useEffect(() => {
+    const updatedNavbar = newNavbar.map((item) => ({
+      ...item,
+      current: item.to === location.pathname,
+    }));
+    setNewNavbar(updatedNavbar);
+  }, [location.pathname]);
+
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -51,150 +60,90 @@ const Navigation: React.FC = () => {
 
   return (
     <div className="bg-primary">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="custom-div-header relative flex h-16 justify-between items-center w-full">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button*/}
-            {/* <div className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-              <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open main menu</span>
-              <img
-                src=""
-                alt=""
-                aria-hidden="true"
-                className="block h-6 w-6 group-data-[open]:hidden"
-              />
-              <img
-                src=""
-                alt=""
-                aria-hidden="true"
-                className="hidden h-6 w-6 group-data-[open]:block"
-              />
-            </div> */}
-          </div>
-
-          {/* <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"> */}
-          <div className="w-1/2 xl:w-1/3">
-            <img alt="Abetka" src="/home-logo.png" className="h-8 w-auto" />
-          </div>
-          <div className="hidden xl:flex xl:justify-center">
-            <div className="flex space-x-6">
-              {' '}
-              {/* 4 to 6 changed */}
-              {navbar.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.to}
-                  aria-current={item.current ? 'page' : undefined}
-                  className={`rounded-md px-3 py-2 text-sm font-medium ${
-                    item.current
-                      ? 'bg-secondary text-white'
-                      : 'text-text hover:text-white'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-          {/* </div> */}
-
-          {isAuthenticated ? (
-            <div className="hidden xl:flex items-center">
-              <button
-                type="button"
-                className="relative rounded-full text-gray-400 hover:bg-link focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-              >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">Сповіщення</span>
-                <img
-                  // aria-hidden="true"
-                  src="/notification-icon.png"
-                  alt="Notification"
-                  className="h-12 w-12"
-                />
-              </button>
-
-              {/* Profile dropdown */}
-              <div className="relative ml-3">
-                <div>
-                  <button
-                    onClick={toggleMenu}
-                    className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">Налаштування профілю</span>
-                    <img
-                      src="/user.png"
-                      alt="Фото профілю"
-                      className="h-12 w-12 rounded-full"
-                    />
-                  </button>
-
-                  {isOpen && (
-                    <div className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Профіль
-                      </Link>
-                      <Link
-                        to="/settings"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Налаштування
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Вийти
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="ml-auto flex space-x-4">
-              <div>
-                <Link
-                  to="/login"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-text hover:text-white"
-                >
-                  Увійти
-                </Link>
-              </div>
-              <div>
-                <Link
-                  to="/register"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-primary bg-yellow hover:bg-deepYellow"
-                >
-                  Зареєструватись
-                </Link>
-              </div>
-            </div>
-          )}
+      <div className="container mx-auto flex justify-between items-center py-4">
+        {/* Logo Section */}
+        <div className="flex-shrink-0">
+          <img alt="Abetka" src="/home-logo.png" className="h-8 w-auto" />
         </div>
-      </div>
 
-      <div className="sm:hidden">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          {navbar.map((item) => (
+        {/* Navbar Links */}
+        <div className="hidden md:flex space-x-16">
+          {newNavbar.map((item) => (
             <Link
               key={item.name}
               to={item.to}
-              aria-current={item.current ? 'page' : undefined}
               className={`rounded-md px-3 py-2 text-sm font-medium ${
                 item.current
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  ? 'text-white bg-secondary'
+                  : 'text-text hover:text-white'
               }`}
             >
               {item.name}
             </Link>
           ))}
+        </div>
+
+        {/* Authentication Buttons */}
+        <div className="flex items-center space-x-4">
+          {!isAuthenticated ? (
+            <>
+              <Link
+                to="/login"
+                className="rounded-md px-3 py-2 text-sm font-medium text-text hover:text-white"
+              >
+                Увійти
+              </Link>
+              <Link
+                to="/register"
+                className="rounded-md px-3 py-2 text-sm font-medium text-primary bg-yellow hover:bg-deepYellow"
+              >
+                Зареєструватися
+              </Link>
+            </>
+          ) : (
+            <div className="flex items-center">
+              {/* Notification */}
+              <button className="relative">
+                <img
+                  src="/notification-icon.png"
+                  alt="Notification"
+                  className="h-6 w-6"
+                />
+              </button>
+              {/* Profile Dropdown */}
+              <div className="ml-4 relative">
+                <button onClick={toggleMenu}>
+                  <img
+                    src="/user.png"
+                    alt="User Profile"
+                    className="h-8 w-8 rounded-full"
+                  />
+                </button>
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Профіль
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Налаштування
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Вийти
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
