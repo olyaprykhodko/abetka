@@ -52,7 +52,7 @@ const Navigation: React.FC = () => {
   return (
     <div className="bg-primary">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="custom-div-header relative flex h-16 justify-between items-center w-full">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
             {/* <div className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -73,32 +73,34 @@ const Navigation: React.FC = () => {
             </div> */}
           </div>
 
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <img alt="Abetka" src="/home-logo.png" className="h-8 w-auto" />
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                {navbar.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.to}
-                    aria-current={item.current ? 'page' : undefined}
-                    className={`rounded-md px-3 py-2 text-sm font-medium ${
-                      item.current
-                        ? 'bg-secondary text-white'
-                        : 'text-gray-300 hover:bg-link hover:text-white'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
+          {/* <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"> */}
+          <div className="w-1/2 xl:w-1/3">
+            <img alt="Abetka" src="/home-logo.png" className="h-8 w-auto" />
+          </div>
+          <div className="hidden xl:flex xl:justify-center">
+            <div className="flex space-x-6">
+              {' '}
+              {/* 4 to 6 changed */}
+              {navbar.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.to}
+                  aria-current={item.current ? 'page' : undefined}
+                  className={`rounded-md px-3 py-2 text-sm font-medium ${
+                    item.current
+                      ? 'bg-secondary text-white'
+                      : 'text-text hover:text-white'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
+          {/* </div> */}
 
           {isAuthenticated ? (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="hidden xl:flex items-center">
               <button
                 type="button"
                 className="relative rounded-full text-gray-400 hover:bg-link focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -158,18 +160,18 @@ const Navigation: React.FC = () => {
             <div className="ml-auto flex space-x-4">
               <div>
                 <Link
-                  to="/register"
-                  className="rounded-md px-3 py-2 text-sm font-medium hover:bg-cardBackground"
+                  to="/login"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-text hover:text-white"
                 >
-                  Зареєструватись
+                  Увійти
                 </Link>
               </div>
               <div>
                 <Link
-                  to="/login"
-                  className="rounded-md px-3 py-2 text-sm font-medium hover:bg-cardBackground"
+                  to="/register"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-primary bg-yellow hover:bg-deepYellow"
                 >
-                  Увійти
+                  Зареєструватись
                 </Link>
               </div>
             </div>
