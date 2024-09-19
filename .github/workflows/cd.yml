@@ -164,6 +164,7 @@ jobs:
       - name: Delete old Docker images
         if: github.event_name != 'pull_request'
         uses: actions/delete-package-versions@v5
+        continue-on-error: true
         with:
           package-name: ${{ github.event.repository.name }}
           package-type: "container"
