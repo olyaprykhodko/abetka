@@ -1,9 +1,6 @@
 services:
   backend:
-    container_name: "${PROJECT_TAG:-app}-backend"
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/olyaprykhodko/abetka-backend:latest
     restart: unless-stopped
     env_file:
       - .env
@@ -14,10 +11,7 @@ services:
         condition: service_healthy
 
   frontend:
-    container_name: "${PROJECT_TAG:-app}-frontend"
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: ghcr.io/olyaprykhodko/abetka-frontend:latest
     restart: unless-stopped
     env_file:
       - .env
@@ -26,7 +20,6 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: "${PROJECT_TAG:-app}-postgres"
     restart: unless-stopped
     env_file:
       - .env
