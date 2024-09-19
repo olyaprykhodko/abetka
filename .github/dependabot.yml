@@ -15,7 +15,17 @@ updates:
         update-types: ["version-update:semver-patch"]
   - package-ecosystem: "npm"
     open-pull-requests-limit: 10
-    directory: "/"
+    directory: "frontend"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+    labels:
+      - "dependencies"
+      - "dependabot"
+  - package-ecosystem: "npm"
+    open-pull-requests-limit: 10
+    directory: "backend"
     schedule:
       interval: "weekly"
     commit-message:
