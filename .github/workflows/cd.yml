@@ -166,7 +166,7 @@ jobs:
         uses: actions/delete-package-versions@v5
         continue-on-error: true
         with:
-          package-name: ${{ github.event.repository.name }}
+          package-name: ${{ github.event.repository.name }}-${{ matrix.directory }}
           package-type: "container"
           min-versions-to-keep: 20
           delete-only-untagged-versions: true
