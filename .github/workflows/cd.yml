@@ -1,0 +1,204 @@
+name: CD
+on:
+  workflow_dispatch:
+  # push:
+  #   paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+  #   branches: ["main"]
+  # pull_request:
+  #   paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+  #   branches: ["main"]
+  #   types: [opened, synchronize, reopened]
+
+env:
+  REGISTRY: "ghcr.io"
+  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_PLATFORMS: "linux/amd64,linux/arm64"
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: "cd"
+  cancel-in-progress: false
+
+jobs:
+  init:
+    name: Initialize CD for ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Get Short SHA
+        id: short-sha
+        run: echo "short-sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+
+      - name: Dry-run Semantic Release
+        id: release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          dry_run: true
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@6.1.0
+            @semantic-release/github@10.3.4
+
+      - name: Get new release version or assign current
+        run: |
+          if [ "${{ steps.release.outputs.new_release_version }}" != "" ]; then
+            echo "release_version=v${{ steps.release.outputs.new_release_version }}" >> $GITHUB_ENV
+          else
+            echo "release_version=$(git tag --points-at ${{ steps.short-sha.outputs.short-sha }})" >> $GITHUB_ENV
+          fi
+
+      - name: Print Short SHA
+        run: echo "Short SHA is '${{ steps.short-sha.outputs.short-sha }}'"
+
+      - name: Print release version
+        run: echo "Release version is '${{ env.release_version }}'"
+
+    outputs:
+      short_sha: ${{ steps.short-sha.outputs.short-sha }}
+      release_version: ${{ env.release_version }}
+
+  docker-build-and-publish:
+    name: Docker Build and Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [init]
+    strategy:
+      fail-fast: false
+      matrix:
+        directory: ["backend", "frontend"]
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: "v2.2.4"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ env.IMAGE_PLATFORMS }}
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.directory }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:${{ needs.init.outputs.release_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:${{ needs.init.outputs.short_sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            SHORT_SHA=${{ needs.init.outputs.short_sha }}
+            RELEASE_VERSION=${{ needs.init.outputs.release_version }}
+          cache-from: "type=gha"
+          cache-to: "type=gha,mode=max"
+          platforms: ${{ env.IMAGE_PLATFORMS }}
+
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:${{ needs.init.outputs.release_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:${{ needs.init.outputs.short_sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:latest
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      - name: Delete old Docker images
+        if: github.event_name != 'pull_request'
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: "container"
+          min-versions-to-keep: 20
+          delete-only-untagged-versions: true
+          token: ${{ github.token }}
+
+  release:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name != 'pull_request'
+    needs: [docker-build-and-publish]
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@6.1.0
+            @semantic-release/github@10.3.4
