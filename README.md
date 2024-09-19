@@ -1,17 +1,26 @@
-# Abetka
+# abetka
 
-## Dependencies
+[![CD workflow](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml/badge.svg)](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml)
 
-<li><a href="https://www.docker.com">Docker</a></li>
+## Requirements
+
+[Node.js](https://nodejs.org) is required to install dependencies.
+
+[Docker](https://www.docker.com/) + [Compose](https://docs.docker.com/compose/) are required to run the project in a container.
 
 ## Project preparation
 
 ```bash
 git clone https://github.com/olyaprykhodko/abetka.git
 cd abetka
-cp .env.example .env
+npm install
+```
 
-openssl rand -base64 32 # generate JWT_SECRET
+## Generate environment variables
+
+```bash
+cp .env.example .env
+sed -i '' "s,JWT_SECRET=secret,JWT_SECRET=$(openssl rand -base64 32),g" .env
 ```
 
 ## Run project
@@ -19,3 +28,7 @@ openssl rand -base64 32 # generate JWT_SECRET
 ```bash
 docker compose up --build --watch
 ```
+
+## Conventional Commit specification
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for commit messages and PR titles.
