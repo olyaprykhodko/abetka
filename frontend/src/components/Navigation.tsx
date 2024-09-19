@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const navbar = [
   { name: 'Головна', to: '/', current: true },
@@ -9,27 +10,43 @@ const navbar = [
   { name: 'Про нас', to: '/about', current: false },
 ];
 
-const checkAuth = () => {
-  return document.cookie
-    .split(';')
-    .some((cookie) => cookie.trim().startsWith('jwt='));
-};
-
 const Navigation: React.FC = () => {
-  const [isAuthentificated, setIsAuthentificated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
+  const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
   useEffect(() => {
-    setIsAuthentificated(checkAuth());
+    const checkAuthentication = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/auth/user`, {
+          withCredentials: true,
+        });
+        const { isAuthenticated } = response.data;
+        setIsAuthenticated(isAuthenticated);
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuthentication();
   }, []);
 
-  const handleLogout = () => {
-    Cookies.remove('jwt');
-    setIsAuthentificated(false);
-    navigate('/');
-    console.log('You have successfully been logged out');
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
+      Cookies.remove('jwt', { sameSite: 'strict', path: '/' });
+      setIsAuthenticated(false);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -80,7 +97,7 @@ const Navigation: React.FC = () => {
             </div>
           </div>
 
-          {isAuthentificated ? (
+          {isAuthenticated ? (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
                 type="button"
@@ -181,5 +198,4 @@ const Navigation: React.FC = () => {
     </div>
   );
 };
-
 export default Navigation;

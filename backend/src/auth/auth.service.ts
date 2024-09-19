@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/users/user.model';
 import { JwtService } from './jwt/jwt.service';
 import * as bcrypt from 'bcrypt';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
       return null;
     } catch (error) {
       console.error('Помилка валідації:', error);
+      Logger.debug(error);
       throw new Error('Internal server error');
     }
   }
@@ -41,6 +43,7 @@ export class AuthService {
       const token = await this.jwtService.generateToken(user);
       return { user, token };
     } catch (error) {
+      Logger.debug(error);
       console.error('Виникла помилка при реєстрації користувача', error);
       throw new Error('Виникла помилка при реєстрації користувача');
     }
@@ -54,8 +57,17 @@ export class AuthService {
       if (!user) throw new Error('Invalid credentials');
       return this.jwtService.generateToken(user);
     } catch (error) {
+      Logger.debug(error);
       console.error('Помилка входу:', error);
       throw new Error('Internal server error');
+    }
+  }
+  async verifyToken(token: string): Promise<any> {
+    try {
+      return this.jwtService.verifyToken(token);
+    } catch (error) {
+      Logger.error(error);
+      throw new Error('Session expired. Please authenticate again.');
     }
   }
 }

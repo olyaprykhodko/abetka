@@ -18,37 +18,27 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${BACKEND_URL}/auth/register`, {
-        username,
-        email,
-        password,
-        role,
-      });
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/register`,
+        {
+          username,
+          email,
+          password,
+          role,
+        },
+        { withCredentials: true },
+      );
 
-      Cookies.set('jwt', response.data.token, {
-        sameSite: 'strict',
-        expires: 7,
-        // secure: true,
-      });
-
-      Cookies.set('registered', 'true', {
-        sameSite: 'strict',
-      });
-
-      console.info(Cookies);
+      console.log('Cookies:', response.data.token);
 
       setIsAuthenticated(true);
+      console.info(setIsAuthenticated);
       navigate('/');
 
       console.info(
         'Registration successful. User is authentificated',
         response.data,
       );
-
-      // console.log(
-      //   'Registration successful. User is authentificated',
-      //   response.data,
-      // );
     } catch (err) {
       setError('Registration failed');
       console.error('Registration error', err);

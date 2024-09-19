@@ -9,25 +9,23 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
+
   const BACKEND_URL = process.env.REACT_APP_BACKEND;
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/auth/login`, {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/login`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true },
+      );
 
       setIsAuthenticated(true);
       console.log('Login successful', response.data);
 
-      Cookies.set('jwt', response.data.token, {
-        // secure: true,
-        sameSite: 'strict',
-        expires: 7,
-      });
       navigate('/');
     } catch (error) {
       console.error('Login failed', error);
@@ -44,7 +42,13 @@ const Login: React.FC = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+          className="space-y-6"
+        >
           <div>
             <label className="block text-sm font-medium leading-6 text-gray-900">
               Ім'я користувача (логін)
