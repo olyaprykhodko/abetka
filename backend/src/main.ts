@@ -10,10 +10,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: '*', // FIXME: unsafe
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    preflightContinue: false,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: ['http://192.168.88.8:3000', 'http://localhost:3000'],
+    credentials: true,
   });
 
   await app.listen(3500);
