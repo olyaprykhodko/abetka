@@ -23,3 +23,8 @@ jobs:
           alert-lookup: true
           compat-lookup: true
           github-token: ${{ github.token }}
+
+      - name: Label PR
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ github.token }}
