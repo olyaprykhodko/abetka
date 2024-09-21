@@ -55,9 +55,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           dry_run: true
+          semantic_version: 24
           extra_plugins: |
-            conventional-changelog-conventionalcommits@6.1.0
-            @semantic-release/github@10.3.4
+            conventional-changelog-conventionalcommits@8.0.0
+            @semantic-release/github@10.3.5
 
       - name: Get new release version or assign current
         run: |
@@ -202,6 +203,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
+          semantic_version: 24
           extra_plugins: |
-            conventional-changelog-conventionalcommits@6.1.0
-            @semantic-release/github@10.3.4
+            conventional-changelog-conventionalcommits@8.0.0
+            @semantic-release/github@10.3.5
