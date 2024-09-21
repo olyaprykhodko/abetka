@@ -1,9 +1,5 @@
 dependabot:
   - head-branch: ["^dependabot", "dependabot"]
-    color: "#0052CC"
-    description: "Dependabot updates"
 
 dependencies:
   - head-branch: ["^dependabot", "dependabot"]
-    color: "#A88529"
-    description: "Dependency updates"
