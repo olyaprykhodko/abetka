@@ -33,13 +33,36 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./frontend
-          target: /app
-          ignore:
+        - path: ./frontend
+        - target: /app
+        - ignore:
             - ./frontend/node_modules/
             - ./frontend/dist/
         - action: rebuild
           path: ./frontend/package.json
+          target: /app/package.json
+    user: root
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - - "0.0.0.0:${FRONTEND_PORT:-3000}:4000"
+
+  frontend-old:
+    container_name: "${PROJECT_TAG:-app}-frontend-old"
+    build:
+      context: ./frontend-old
+      dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend-old
+          target: /app-old
+          ignore:
+            - ./frontend-old/node_modules/
+            - ./frontend-old/dist/
+        - action: rebuild
+          path: ./frontend-old/package.json
           target: /app/package.json
     user: root
     restart: unless-stopped
@@ -59,8 +82,7 @@ services:
     volumes:
       - "postgres-data:/var/lib/postgresql/data"
     healthcheck:
-      test:
-        ["CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'"]
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'" ]
       interval: 120s
       timeout: 5s
       retries: 2
