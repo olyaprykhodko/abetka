@@ -33,9 +33,9 @@ services:
     develop:
       watch:
         - action: sync
-        - path: ./frontend
-        - target: /app
-        - ignore:
+          path: ./frontend
+          target: /app
+          ignore:
             - ./frontend/node_modules/
             - ./frontend/dist/
         - action: rebuild
@@ -46,10 +46,10 @@ services:
     env_file:
       - .env
     ports:
-      - - "0.0.0.0:${FRONTEND_PORT:-3000}:4000"
+      - "0.0.0.0:${FRONTEND_PORT:-3000}:3000"
 
   frontend-old:
-    container_name: "${PROJECT_TAG:-app}-frontend-old"
+    container_name: "${PROJECT_TAG:-app-old}-frontend-old"
     build:
       context: ./frontend-old
       dockerfile: Dockerfile
@@ -69,7 +69,7 @@ services:
     env_file:
       - .env
     ports:
-      - "0.0.0.0:${FRONTEND_PORT:-3000}:3000"
+      - "3000:3000"
 
   postgres:
     image: postgres:16-alpine
