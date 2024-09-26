@@ -59,7 +59,7 @@ const Register: React.FC = () => {
           <form onSubmit={handleRegister} className="space-y-6">
             <div>
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Ім`&apos;`я користувача (логін)
+                Ім&apos;я користувача (логін)
               </label>
               <div className="mt-2">
                 <input
