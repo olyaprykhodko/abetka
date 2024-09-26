@@ -24,7 +24,7 @@ const Home = () => {
       )}
       {/* {welcomeHeader} */}
       <div className="text-center mt-10">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+        <h2 className="text-2xl leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight font-openSans font-300">
           Вітаємо в онлайн-школі Абетка
         </h2>
       </div>

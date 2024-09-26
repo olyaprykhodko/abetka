@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import homeLogo from '../../public/home-logo.png';
+import abetkaLogo from '../../public/abetka-logo.svg';
 import notificationIcon from '../../public/notification-icon.png';
 import userLogo from '../../public/user.png';
 
@@ -12,6 +12,7 @@ const navbar = [
   { name: 'Знайти репетитора', href: '/teachers', current: false },
   { name: 'Вартість уроків', href: '/lessons', current: false },
   { name: 'Про нас', href: '/about', current: false },
+  { name: 'Контакти та підтримка', href: '/contacts', current: false },
 ];
 
 const Navigation = () => {
@@ -63,19 +64,19 @@ const Navigation = () => {
       <div className="container mx-auto flex justify-between items-center py-4">
         {/* Logo Section */}
         <div className="flex-shrink-0">
-          <Image src={homeLogo} alt="Abetka" className="h-8 w-auto" />
+          <Image src={abetkaLogo} alt="Abetka" className="h-14 w-auto" />
         </div>
 
         {/* Navbar Links */}
-        <div className="hidden md:flex space-x-16">
+        <div className="hidden md:flex space-x-5">
           {newNavbar.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className={`rounded-md px-3 py-2 text-sm font-medium ${
+              className={`rounded-md px-3 py-2 text-base font-openSans font-300 not-italic ${
                 item.current
                   ? 'text-white bg-secondary'
-                  : 'text-text hover:text-white'
+                  : 'text-white hover:text-white'
               }`}
             >
               {item.name}
