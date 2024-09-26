@@ -9,7 +9,7 @@ import userLogo from '../../public/user.png';
 
 const navbar = [
   { name: 'Головна', href: '/', current: true },
-  { name: 'Знайти репетитора', href: '/find-teacher', current: false },
+  { name: 'Знайти репетитора', href: '/teachers', current: false },
   { name: 'Вартість уроків', href: '/lessons', current: false },
   { name: 'Про нас', href: '/about', current: false },
 ];
