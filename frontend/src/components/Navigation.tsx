@@ -60,23 +60,25 @@ const Navigation = () => {
   };
 
   return (
-    <div className="bg-primary">
+    <div>
       <div className="container mx-auto flex justify-between items-center py-4">
         {/* Logo Section */}
         <div className="flex-shrink-0">
-          <Image src={abetkaLogo} alt="Abetka" className="h-14 w-auto" />
+          <Link href="/">
+            <Image src={abetkaLogo} alt="Abetka" className="h-20 w-auto " />
+          </Link>
         </div>
 
         {/* Navbar Links */}
-        <div className="hidden md:flex space-x-5">
+        <div className="hidden md:flex space-x-5 h-20 w-auto items-center rounded-md">
           {newNavbar.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className={`rounded-md px-3 py-2 text-base font-openSans font-300 not-italic ${
+              className={`rounded-xl px-3 py-2 text-lg font-openSans font-500 not-italic ${
                 item.current
-                  ? 'text-white bg-secondary'
-                  : 'text-white hover:text-white'
+                  ? 'text-white font-semibold bg-primary'
+                  : 'text-gray-900 hover:bg-secondary hover:text-background'
               }`}
             >
               {item.name}

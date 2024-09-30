@@ -9,17 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#16325B',
-        secondary: '#227B94',
-        background: '#F2F4F7',
-        text: '#d1d5db',
-        textSecondary: '#6E6E6E',
-        link: '#78B7D0',
-        success: '#27AE60',
-        error: '#E74C3C',
+        primary: '#16325B', // deep blue
+        secondary: '#227B94', // blue
+        background: '#F2F4F7', // white-blue
+        text: '#d1d5db', // white-grey
+        textSecondary: '#6E6E6E', // deep grey
+        link: '#78B7D0', // light blue
+        success: '#27AE60', // green
+        error: '#E74C3C', // red
         yellow: '#f4ca44',
         deepYellow: '#ebc254',
-        border: '#E0E0E0',
       },
       fontFamily: {
         openSans: ['Open Sans'],
