@@ -32,7 +32,11 @@ export class AuthService {
     password: string,
     role: 'student' | 'teacher' | 'admin',
   ): Promise<{ user: User; token: string }> {
-    const hashPassword = await bcrypt.hash(password, 3);
+    console.log('Password received:', password);
+    if (!password) {
+      throw new Error('Password is required');
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
     try {
       const user = await this.userModel.create<User>({
         username,

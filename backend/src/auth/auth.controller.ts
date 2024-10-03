@@ -60,13 +60,11 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Res() res: Response) {
-    res.cookie('jwt', '', {
+    res.clearCookie('jwt', {
       httpOnly: true,
       sameSite: 'strict',
-      expires: new Date(0),
-      path: '/',
     });
 
-    res.status(200).json({ message: 'Logged out successfully' });
+    return res.send({ message: 'Logged out successfully' });
   }
 }

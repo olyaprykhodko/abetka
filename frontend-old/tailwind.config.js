@@ -17,8 +17,9 @@ module.exports = {
         border: '#E0E0E0',
       },
       fontFamily: {
-        sans: 'sans-serif',
+        sans: 'sans',
         poppins: ['Poppins'],
+        gergel: ['Gergel'],
       },
       fontWeight: {
         thin: '100',
