@@ -60,7 +60,7 @@ const Navigation = () => {
   };
 
   return (
-    <div>
+    <header>
       <div className="container mx-auto flex justify-between items-center py-4">
         {/* Logo Section */}
         <div className="flex-shrink-0">
@@ -75,7 +75,7 @@ const Navigation = () => {
             <Link
               key={item.name}
               href={item.href}
-              className={`rounded-xl px-3 py-2 text-lg font-openSans font-500 not-italic ${
+              className={`rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic ${
                 item.current
                   ? 'text-white font-semibold bg-primary'
                   : 'text-gray-900 hover:bg-secondary hover:text-background'
@@ -92,13 +92,13 @@ const Navigation = () => {
             <>
               <Link
                 href="/login"
-                className="rounded-md px-3 py-2 text-sm font-medium text-text hover:text-white"
+                className="rounded-md px-3 py-2 text-base font-medium text-gray hover:text-secondary"
               >
                 Увійти
               </Link>
               <Link
                 href="/register"
-                className="rounded-md px-3 py-2 text-sm font-medium text-primary bg-yellow hover:bg-deepYellow"
+                className="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
               >
                 Зареєструватися
               </Link>
@@ -149,7 +149,7 @@ const Navigation = () => {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 export default Navigation;

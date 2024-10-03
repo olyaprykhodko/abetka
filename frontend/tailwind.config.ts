@@ -19,6 +19,7 @@ const config: Config = {
         error: '#E74C3C', // red
         yellow: '#f4ca44',
         deepYellow: '#ebc254',
+        gray: '#35383b',
       },
       fontFamily: {
         openSans: ['Open Sans'],
