@@ -1,13 +1,13 @@
 name: CD
 on:
   workflow_dispatch:
-  # push:
-  #   paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
-  #   branches: ["main"]
-  # pull_request:
-  #   paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
-  #   branches: ["main"]
-  #   types: [opened, synchronize, reopened]
+  push:
+    paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+    branches: ["main"]
+  pull_request:
+    paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
 
 env:
   REGISTRY: "ghcr.io"
