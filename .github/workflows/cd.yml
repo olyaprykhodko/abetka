@@ -204,8 +204,8 @@ jobs:
             nginx -t || exit 1
           SCRIPT_AFTER: |
             echo ${{ secrets.PROJECT_ENV }} > .env
-            docker compose pull
-            docker compose up -d
+            docker compose --file docker-compose.prod.yml pull
+            docker compose --file docker-compose.prod.yml up --detach
             nginx -t && nginx -s reload
 
   release:
