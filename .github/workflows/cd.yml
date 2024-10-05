@@ -201,6 +201,13 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           TARGET: "${{ github.event.repository.name }}/"
+          EXCLUDE: >-
+            .git
+            .github
+            backend
+            database
+            frontend
+            docker-compose.yml
           SCRIPT_BEFORE: |
             ls -lap ${{ github.event.repository.name }}/
           SCRIPT_AFTER: |
