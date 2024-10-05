@@ -148,8 +148,8 @@ jobs:
           build-args: |
             SHORT_SHA=${{ needs.init.outputs.short_sha }}
             RELEASE_VERSION=${{ needs.init.outputs.release_version }}
-          cache-from: "type=gha"
-          cache-to: "type=gha,mode=max"
+          cache-from: "type=gha,scope=${{ env.IMAGE_NAME }}-${{ matrix.directory }}"
+          cache-to: "type=gha,mode=max,scope=${{ env.IMAGE_NAME }}-${{ matrix.directory }}"
           platforms: ${{ env.IMAGE_PLATFORMS }}
 
       - name: Sign the published Docker image
