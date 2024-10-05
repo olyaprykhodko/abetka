@@ -2,6 +2,8 @@
 
 [![CD workflow](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml/badge.svg)](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml)
 
+Demo is available at [abetka.site](https://abetka.site)
+
 ## Requirements
 
 [Node.js](https://nodejs.org) is required to install dependencies.
