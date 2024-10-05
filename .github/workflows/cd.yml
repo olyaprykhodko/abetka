@@ -201,12 +201,11 @@ jobs:
             docker-compose.prod.yml
           TARGET: "/project/${{ env.IMAGE_NAME }}"
           SCRIPT_BEFORE: |
-            nginx -t || exit 1
+            ls -lap
           SCRIPT_AFTER: |
             echo ${{ secrets.PROJECT_ENV }} > .env
             docker compose --file docker-compose.prod.yml pull
             docker compose --file docker-compose.prod.yml up --detach
-            nginx -t && nginx -s reload
 
   release:
     name: Publish Release
