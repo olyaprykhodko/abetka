@@ -188,23 +188,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: echo ${{ secrets.PROJECT_ENV }} > .env
+
       - name: SSH Deploy
         uses: easingthemes/ssh-deploy@v5.1.0
         with:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avDz --include 'docker-compose.prod.yml' --exclude '*'"
+          ARGS: "-avDz --include 'docker-compose.prod.yml' --include '.env' --exclude '*'"
           TARGET: "${{ github.event.repository.name }}/"
-          # FIXME: remove later
           SCRIPT_BEFORE: |
-            pwd
-            id
-            ls -lap
+            ls -lap ${{ github.event.repository.name }}/
           SCRIPT_AFTER: |
-            echo ${{ secrets.PROJECT_ENV }} > .env
-            docker compose --file docker-compose.prod.yml pull
-            docker compose --file docker-compose.prod.yml up --detach
+            docker compose --file ${{ github.event.repository.name }}/docker-compose.prod.yml pull
+            docker compose --file ${{ github.event.repository.name }}/docker-compose.prod.yml up --detach
 
   release:
     name: Publish Release
