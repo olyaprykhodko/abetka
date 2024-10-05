@@ -189,7 +189,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create .env file
-        run: echo ${{ secrets.PROJECT_ENV }} > .env
+        run: |
+          cat << EOF > ./.env
+          ${{ secrets.PROJECT_ENV }}
+          EOF
 
       - name: Debug
         run: ls -lap
@@ -200,7 +203,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avDz --include 'docker-compose.prod.yml' --include 'README.md' --include '.env' --exclude '*'"
+          ARGS: "-avDz --include 'docker-compose.prod.yml' --include 'README.md' --include '.env' --exclude '*' --min-size=0"
           TARGET: "${{ github.event.repository.name }}/"
           SCRIPT_BEFORE: |
             ls -lap ${{ github.event.repository.name }}/
