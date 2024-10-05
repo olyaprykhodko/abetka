@@ -175,6 +175,39 @@ jobs:
           delete-only-untagged-versions: true
           token: ${{ github.token }}
 
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name != 'pull_request'
+    needs: [docker-build-and-publish]
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: SSH Deploy
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SOURCE: >
+            docker-compose.prod.yml
+          TARGET: "/project/${{ env.IMAGE_NAME }}"
+          SCRIPT_BEFORE: |
+            nginx -t || exit 1
+          SCRIPT_AFTER: |
+            echo ${{ secrets.PROJECT_ENV }} > .env
+            docker compose pull
+            docker compose up -d
+            nginx -t && nginx -s reload
+
   release:
     name: Publish Release
     runs-on: ubuntu-latest
