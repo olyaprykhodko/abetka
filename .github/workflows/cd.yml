@@ -203,7 +203,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avDz --include 'docker-compose.prod.yml' --include 'README.md' --include '.env' --exclude '*' --min-size=0"
+          ARGS: "-aviclgoDz --include 'docker-compose.prod.yml' --include '.env' --min-size=0"
           TARGET: "${{ github.event.repository.name }}/"
           SCRIPT_BEFORE: |
             ls -lap ${{ github.event.repository.name }}/
