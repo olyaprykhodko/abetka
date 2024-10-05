@@ -199,7 +199,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SOURCE: >
             docker-compose.prod.yml
-          TARGET: "/project/${{ env.IMAGE_NAME }}"
+          TARGET: "/project/${{ github.event.repository.name }}"
           SCRIPT_BEFORE: |
             ls -lap
           SCRIPT_AFTER: |
