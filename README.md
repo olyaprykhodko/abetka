@@ -2,7 +2,8 @@
 
 [![CD workflow](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml/badge.svg)](https://github.com/olyaprykhodko/abetka/actions/workflows/cd.yml)
 
-Demo is available at [abetka.site](https://abetka.site)
+- frontend link: [abetka.site](https://abetka.site)
+- api link: [abetka.site/api](https://abetka.site/api)
 
 ## Requirements
 
