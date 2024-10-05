@@ -195,7 +195,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avDz --include 'docker-compose.prod.yml' --exclude '*'"
-          TARGET: "/project/${{ github.event.repository.name }}"
+          TARGET: "/projects/${{ github.event.repository.name }}"
           SCRIPT_BEFORE: |
             ls -lap
           SCRIPT_AFTER: |
