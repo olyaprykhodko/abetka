@@ -11,9 +11,7 @@ const Home = () => {
   return (
     <>
       <div className="bg-background relative overflow-hidden">
-        <div className="relative isolate px-6 pt-4 lg:px-8">
-          <Navigation />
-
+        <div className="relative isolate px-4 pt-1 lg:px-14 ">
           {/* Top gradient */}
           <div
             aria-hidden="true"
@@ -29,11 +27,14 @@ const Home = () => {
             />
           </div>
 
-          {/* Main page */}
-          <div className="mx-auto max-w-7xl py-8 sm:py-12 lg:py-32 font-openSans ">
-            {/* First div */}
+          <div className="flex justify-center items-center w-full">
+            <Navigation />
+          </div>
+          <hr className="border-t border-primary" />
+
+          {/* Header */}
+          <header className="mt-8 py-4 mx-20">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center">
-              {/* Header */}
               <div className="lg:w-1/3 w-full text-center lg:text-left lg:pr-12 border-none">
                 <h1 className="text-5xl font-bold tracking-tight text-primary sm:text-5xl lg:text-5xl xl:text-6xl xl:leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
                   Почніть навчатись або навчати вже зараз
@@ -71,23 +72,26 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            {/* Buttons */}
-            <div className="mt-10 flex items-center gap-x-6">
-              <Link
-                href="#"
-                className="rounded-md bg-secondary px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                Перейти до реєстрації
-              </Link>
-              <Link
-                href="#"
-                className="text-base font-semibold leading-6 text-gray-900 hover:text-primary transition-all"
-              >
-                Дізнайтесь більше про нас <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            {/* End of first div */}
-
+          </header>
+          {/* Buttons */}
+          <div className="mt-10 mb-10 mx-20 flex items-center gap-x-6">
+            <Link
+              href="#"
+              className="rounded-md bg-secondary px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              Перейти до реєстрації
+            </Link>
+            <Link
+              href="#"
+              className="text-base font-semibold leading-6 text-gray-900 hover:text-primary transition-all"
+            >
+              Дізнайтесь більше про нас <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+        {/* Main page */}
+        <main className="grid min-h-full place-items-center bg-white px-0 py-0 sm:py-0 lg:px-0 sm:px-0">
+          <div className="mx-auto max-w-7xl py-2 sm:py-2 lg:py-2 font-openSans">
             {/* Second div */}
             <div className="py-48 flex flex-col lg:flex-row justify-between items-start lg:items-start">
               {/* Header */}
@@ -136,7 +140,7 @@ const Home = () => {
             {/* End of second div */}
 
             {/* Third div */}
-            <div>
+            <div className="mb-6">
               <div className="lg:w-full w-full text-center lg:text-right">
                 <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-4xl lg:text-4xl xl:text-6xl">
                   Викладачі Абетки
@@ -209,7 +213,7 @@ const Home = () => {
             </div>
             {/* End of third div */}
           </div>
-        </div>
+        </main>
         <Footer />
       </div>
     </>
