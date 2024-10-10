@@ -1,0 +1,1094 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders correctly homepage 1`] = `
+<div>
+  <div
+    class="bg-background relative overflow-hidden"
+  >
+    <div
+      class="relative isolate px-4 pt-1 lg:px-14 "
+    >
+      <div
+        aria-hidden="true"
+        class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+      >
+        <div
+          class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);"
+        />
+      </div>
+      <div
+        class="flex justify-center items-center w-full"
+      >
+        <div
+          class="container mx-0 flex justify-between items-center py-4"
+        >
+          <div
+            class="flex-shrink-0"
+          >
+            <a
+              href="/"
+            >
+              <img
+                alt="Abetka"
+                class="h-20 w-auto "
+                data-nimg="1"
+                decoding="async"
+                height="40"
+                loading="lazy"
+                src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                style="color: transparent;"
+                width="40"
+              />
+            </a>
+          </div>
+          <div
+            class="hidden md:flex space-x-5 h-20 w-auto items-center rounded-md"
+          >
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-white font-semibold bg-primary"
+              href="/"
+            >
+              Головна
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/teachers"
+            >
+              Знайти репетитора
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/lessons"
+            >
+              Вартість уроків
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/about"
+            >
+              Про нас
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/contacts"
+            >
+              Контакти та підтримка
+            </a>
+          </div>
+          <div
+            class="flex items-center space-x-4"
+          >
+            <a
+              class="rounded-md px-3 py-2 text-base font-medium text-gray hover:text-secondary"
+              href="/login"
+            >
+              Увійти
+            </a>
+            <a
+              class="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
+              href="/register"
+            >
+              Зареєструватися
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr
+        class="border-t border-primary"
+      />
+      <header
+        class="mt-8 py-4 mx-20"
+      >
+        <div
+          class="flex flex-col lg:flex-row justify-between items-start lg:items-center"
+        >
+          <div
+            class="lg:w-1/3 w-full text-center lg:text-left lg:pr-12 border-none"
+          >
+            <h1
+              class="text-5xl font-bold tracking-tight text-primary sm:text-5xl lg:text-5xl xl:text-6xl xl:leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary"
+            >
+              Почніть навчатись або навчати вже зараз
+            </h1>
+          </div>
+          <div
+            class="lg:w-2/3 w-full space-y-12 mt-10 lg:mt-0 lg:ml-12"
+          >
+            <div
+              class="flex flex-col lg:flex-row items-start lg:space-x-8 bg-gradient-to-r from-[#ffdc7f] to-[#ebc254] p-8 rounded-lg transition-all hover:shadow-lg"
+            >
+              <img
+                alt="Навчання"
+                class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                data-nimg="1"
+                decoding="async"
+                height="40"
+                loading="lazy"
+                src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                style="color: transparent;"
+                width="40"
+              />
+              <p
+                class="text-lg leading-8 text-gray lg:w-2/3"
+              >
+                Знайдіть репетитора з будь-якого шкільного предмета та навчайтесь у зручний спосіб. Усі наші викладачи мають профільну вищу освіту та підтверджений досвід роботи. Ми надаємо повне супроводження та підтримку від наших спеціалістів, аби ваша дитина почувалася комфортно.
+              </p>
+            </div>
+            <div
+              class="flex flex-col lg:flex-row items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+            >
+              <img
+                alt="Викладання"
+                class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                data-nimg="1"
+                decoding="async"
+                height="40"
+                loading="lazy"
+                src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                style="color: transparent;"
+                width="40"
+              />
+              <p
+                class="text-lg leading-8 text-gray lg:w-2/3"
+              >
+                Якщо ви досвідчений викладач із підтвердженим дипломом українського ВИШу, доєднуйтесь до Абетки. Обирайте робочий час, навантаження та навчальну програму самостійно.
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div
+        class="mt-10 mb-10 mx-20 flex items-center gap-x-6"
+      >
+        <a
+          class="rounded-md bg-secondary px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          href="#"
+        >
+          Перейти до реєстрації
+        </a>
+        <a
+          class="text-base font-semibold leading-6 text-gray-900 hover:text-primary transition-all"
+          href="#"
+        >
+          Дізнайтесь більше про нас 
+          <span
+            aria-hidden="true"
+          >
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+    <main
+      class="grid min-h-full place-items-center bg-white px-0 py-0 sm:py-0 lg:px-0 sm:px-0"
+    >
+      <div
+        class="mx-auto max-w-7xl py-2 sm:py-2 lg:py-2 font-openSans"
+      >
+        <div
+          class="py-48 flex flex-col lg:flex-row justify-between items-start lg:items-start"
+        >
+          <div
+            class="lg:w-2/3 w-full text-center lg:text-right lg:pr-12"
+          >
+            <h1
+              class="text-4xl font-bold tracking-tight text-primary sm:text-4xl lg:text-4xl xl:text-7xl leading-snug"
+            >
+              Оберіть предмет
+            </h1>
+            <p
+              class="mt-5 text-lg text-gray"
+            >
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae tenetur provident placeat vero. Fugiat architecto, dignissimos quo, hic repellat cupiditate aliquid totam dolor commodi dicta distinctio voluptas fuga est animi.
+            </p>
+          </div>
+          <div
+            class="lg:w-2/3 w-full space-y-12 mt-10 lg:mt-0 lg:ml-12"
+          >
+            <div
+              class="flex flex-col lg:flex-row items-start lg:space-x-8 bg-gradient-to-r from-[#ffdc7f] to-[#ebc254] p-8 rounded-lg transition-all hover:shadow-lg"
+            >
+              <p
+                class="text-lg leading-8 text-gray font-600 lg:w-2/3"
+              >
+                Математика
+              </p>
+            </div>
+            <div
+              class="flex flex-col lg:flex-row items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+            >
+              <p
+                class="text-lg leading-8 text-gray font-600 lg:w-2/3"
+              >
+                Українська мова
+              </p>
+            </div>
+            <div
+              class="flex flex-col lg:flex-row items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+            >
+              <p
+                class="text-lg leading-8 text-gray font-600 lg:w-2/3"
+              >
+                Англійська мова
+              </p>
+            </div>
+            <div
+              class="mt-10 flex items-center gap-x-6"
+            >
+              <a
+                class="text-base font-semibold leading-6 text-gray hover:text-primary transition-all"
+                href="#"
+              >
+                Інші предмети 
+                <span
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mb-6"
+        >
+          <div
+            class="lg:w-full w-full text-center lg:text-right"
+          >
+            <h1
+              class="text-4xl font-bold tracking-tight text-primary sm:text-4xl lg:text-4xl xl:text-6xl"
+            >
+              Викладачі Абетки
+            </h1>
+            <p
+              class="mt-5 text-lg text-gray"
+            >
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam ut illum maxime, praesentium totam expedita, necessitatibus rem ducimus quia dolores nam quasi aliquid in delectus natus. Eveniet optio cum voluptatum?
+            </p>
+          </div>
+          <div
+            class="py-20 flex flex-col lg:flex-row justify-between items-start lg:items-start"
+          >
+            <div
+              class="lg:w-full w-full grid grid-cols-1 lg:grid-cols-2 gap-12 mt-3 lg:mt-0 lg:ml-12"
+            >
+              <div
+                class="flex flex-col items-start lg:space-x-8 bg-gradient-to-r from-[#ffdc7f] to-[#ebc254] p-8 rounded-lg transition-all hover:shadow-lg"
+              >
+                <img
+                  alt="Навчання"
+                  class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                  srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <p
+                  class="text-lg leading-8 text-gray-900"
+                >
+                  Joahna Doe
+                </p>
+              </div>
+              <div
+                class="flex flex-col items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+              >
+                <img
+                  alt="John"
+                  class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                  srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <p
+                  class="text-lg leading-8 text-gray-900"
+                >
+                  John Doe
+                </p>
+              </div>
+              <div
+                class="flex flex-col items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+              >
+                <img
+                  alt="Навчання"
+                  class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                  srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <p
+                  class="text-lg leading-8 text-gray-900"
+                >
+                  Mary Smith
+                </p>
+              </div>
+              <div
+                class="flex flex-col items-start lg:space-x-8 bg-gradient-to-r from-[#78b7d0] to-[#227b94] p-8 rounded-lg transition-all hover:shadow-lg"
+              >
+                <img
+                  alt="Навчання"
+                  class="w-40 h-40 object-cover rounded-md mb-6 lg:mb-0"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                  srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <p
+                  class="text-lg leading-8 text-gray-900"
+                >
+                  Michael Brown
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-1 flex justify-center"
+          >
+            <a
+              class="text-base font-semibold leading-6 text-gray hover:text-primary transition-all"
+              href="#"
+            >
+              Всі викладачі 
+              <span
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="mx-auto mt-8 w-full max-w-container px-4 sm:px-6 lg:px-8 font-openSans"
+    >
+      <h2
+        class="sr-only"
+        id="footer-heading"
+      >
+        Footer
+      </h2>
+      <div
+        class="mb-16"
+      >
+        <img
+          alt=""
+          class="h-20 w-auto"
+          data-nimg="1"
+          decoding="async"
+          height="40"
+          loading="lazy"
+          src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+          srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+          style="color: transparent;"
+          width="40"
+        />
+        <p
+          class="mt-10 max-w-2xl text-lg/6 text-primary font-500"
+        >
+          Онлайн-школа, яка допомагає учням знайти репетиторів для будь-яких шкільних предметів. Платформа забезпечує зручний пошук викладачів та пропонує індивідуальні заняття для покращення успішності.
+        </p>
+        <hr
+          class="mt-10 border-t border-primary"
+        />
+      </div>
+      <div
+        class="mt-10 mb-8 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4"
+      >
+        <div>
+          <h3
+            class="text-base/6 font-semibold text-primary"
+          >
+            Навчання
+          </h3>
+          <ul
+            class="mt-4 space-y-4"
+            role="list"
+          >
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/marketing/sections/heroes"
+              >
+                Підготовка до НМТ
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/marketing/sections/feature-sections"
+              >
+                Репетиторство за шкільною програмою
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/marketing/sections/pricing"
+              >
+                Англійська мова
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/marketing/sections/header"
+              >
+                Математика
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/marketing/sections/newsletter-sections"
+              >
+                Історія України
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components#product-marketing"
+              >
+                Всі предмети 
+                <span>
+                  →
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-base/6 font-semibold text-primary"
+          >
+            Вартість послуг
+          </h3>
+          <ul
+            class="mt-4 space-y-4"
+            role="list"
+          >
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/application-ui/lists/tables"
+              >
+                Підписка на начальний рік
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/application-ui/lists/feeds"
+              >
+                Щомісячна підписка
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/application-ui/forms/form-layouts"
+              >
+                Комбінований пакет предметів
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components#product-application-ui"
+              >
+                Всі послуги 
+                <span>
+                  →
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-base/6 font-semibold text-primary"
+          >
+            Підібрати викладача
+          </h3>
+          <ul
+            class="mt-4 space-y-4"
+            role="list"
+          >
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/ecommerce/components/product-overviews"
+              >
+                Репетитор з англійської мови
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/ecommerce/components/product-lists"
+              >
+                Репетитор з математики
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/ecommerce/components/category-previews"
+              >
+                Репетитор з української мови
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/ecommerce/components/shopping-carts"
+              >
+                Репетитор з інформатики
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components/ecommerce/components/category-filters"
+              >
+                Репетитор начальної школи
+              </a>
+            </li>
+            <li
+              class="group"
+            >
+              <a
+                class="text-base/6 text-primary hover:text-gray-900 group-last:text-slate-900 [&>span]:group-last:inline-block [&>span]:group-last:transition [&>span]:group-last:hover:translate-x-0.5"
+                href="/components#product-ecommerce"
+              >
+                Всі викладачі 
+                <span>
+                  →
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-base/6 font-semibold text-primary"
+          >
+            Контакти та підтримка
+            <a
+              href=""
+            />
+          </h3>
+        </div>
+      </div>
+      <div
+        class="items-centers grid grid-cols-1 justify-between gap-4 border-t border-primary py-6 md:grid-cols-2"
+      >
+        <p
+          class="text-sm/6 text-slate-600 max-md:text-center font-openSans"
+        >
+          © 2024 Онлайн-школа "Абетка". Торгова марка використовується на підставі лізенції правовласника
+        </p>
+        <div
+          class="flex items-center justify-center space-x-4 text-sm/6 font-semibold text-slate-900 md:justify-end"
+        >
+          <a
+            href="/privacy-policy"
+          >
+            Політика конфіденційності
+          </a>
+          <div
+            class="h-4 w-px bg-slate-200"
+          />
+          <a
+            href="/changelog"
+          >
+            Лізенція на здійснення освітньої діяльності
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+`;
+
+exports[`Renders correctly teachers page 1`] = `
+<div>
+  <div
+    class="bg-background relative overflow-hidden"
+  >
+    <div
+      class="relative isolate px-4 pt-1 lg:px-14 "
+    >
+      <div
+        aria-hidden="true"
+        class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+      >
+        <div
+          class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);"
+        />
+      </div>
+      <div
+        class="flex justify-center items-center w-full"
+      >
+        <div
+          class="container mx-0 flex justify-between items-center py-4"
+        >
+          <div
+            class="flex-shrink-0"
+          >
+            <a
+              href="/"
+            >
+              <img
+                alt="Abetka"
+                class="h-20 w-auto "
+                data-nimg="1"
+                decoding="async"
+                height="40"
+                loading="lazy"
+                src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+                srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+                style="color: transparent;"
+                width="40"
+              />
+            </a>
+          </div>
+          <div
+            class="hidden md:flex space-x-5 h-20 w-auto items-center rounded-md"
+          >
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-white font-semibold bg-primary"
+              href="/"
+            >
+              Головна
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/teachers"
+            >
+              Знайти репетитора
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/lessons"
+            >
+              Вартість уроків
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/about"
+            >
+              Про нас
+            </a>
+            <a
+              class="rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic text-gray-900 hover:bg-secondary hover:text-background"
+              href="/contacts"
+            >
+              Контакти та підтримка
+            </a>
+          </div>
+          <div
+            class="flex items-center space-x-4"
+          >
+            <a
+              class="rounded-md px-3 py-2 text-base font-medium text-gray hover:text-secondary"
+              href="/login"
+            >
+              Увійти
+            </a>
+            <a
+              class="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
+              href="/register"
+            >
+              Зареєструватися
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr
+        class="border-t border-primary"
+      />
+    </div>
+    <div
+      class="bg-white"
+    >
+      <div
+        class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
+      >
+        <h2
+          class="sr-only"
+        >
+          Products
+        </h2>
+        <div
+          class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+        >
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Earthen Bottle
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $48
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Olive drab green insulated bottle with flared screw lid and flat top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Nomad Tumbler
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Person using a pen to cross a task off a productivity paper card."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Focus Paper Refill
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $89
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Hand holding black machined steel mechanical pencil with brass tip and top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Machined Mechanical Pencil
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-01.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Earthen Bottle
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $48
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Olive drab green insulated bottle with flared screw lid and flat top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-02.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Nomad Tumbler
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Person using a pen to cross a task off a productivity paper card."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-03.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Focus Paper Refill
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $89
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Hand holding black machined steel mechanical pencil with brass tip and top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Machined Mechanical Pencil
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Hand holding black machined steel mechanical pencil with brass tip and top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Machined Mechanical Pencil
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+          <a
+            class="group"
+            href="#"
+          >
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                alt="Hand holding black machined steel mechanical pencil with brass tip and top."
+                class="h-full w-full object-cover object-center group-hover:opacity-75"
+                data-nimg="1"
+                decoding="async"
+                height="500"
+                loading="lazy"
+                src="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75"
+                srcset="/_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=640&q=75 1x, /_next/image?url=https%3A%2F%2Ftailwindui.com%2Fplus%2Fimg%2Fecommerce-images%2Fcategory-page-04-image-card-04.jpg&w=1080&q=75 2x"
+                style="color: transparent;"
+                width="500"
+              />
+            </div>
+            <h3
+              class="mt-4 text-sm text-gray-700"
+            >
+              Machined Mechanical Pencil
+            </h3>
+            <p
+              class="mt-1 text-lg font-medium text-gray-900"
+            >
+              $35
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
