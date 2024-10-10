@@ -60,96 +60,94 @@ const Navigation = () => {
   };
 
   return (
-    <header>
-      <div className="container mx-auto flex justify-between items-center py-4">
-        {/* Logo Section */}
-        <div className="flex-shrink-0">
-          <Link href="/">
-            <Image src={abetkaLogo} alt="Abetka" className="h-20 w-auto " />
+    <div className="container mx-0 flex justify-between items-center py-4">
+      {/* Logo Section */}
+      <div className="flex-shrink-0">
+        <Link href="/">
+          <Image src={abetkaLogo} alt="Abetka" className="h-20 w-auto " />
+        </Link>
+      </div>
+
+      {/* Navbar Links */}
+      <div className="hidden md:flex space-x-5 h-20 w-auto items-center rounded-md">
+        {newNavbar.map((item) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic ${
+              item.current
+                ? 'text-white font-semibold bg-primary'
+                : 'text-gray-900 hover:bg-secondary hover:text-background'
+            }`}
+          >
+            {item.name}
           </Link>
-        </div>
+        ))}
+      </div>
 
-        {/* Navbar Links */}
-        <div className="hidden md:flex space-x-5 h-20 w-auto items-center rounded-md">
-          {newNavbar.map((item) => (
+      {/* Authentication Buttons */}
+      <div className="flex items-center space-x-4">
+        {!isAuthenticated ? (
+          <>
             <Link
-              key={item.name}
-              href={item.href}
-              className={`rounded-xl px-3 py-2 text-base font-openSans font-500 not-italic ${
-                item.current
-                  ? 'text-white font-semibold bg-primary'
-                  : 'text-gray-900 hover:bg-secondary hover:text-background'
-              }`}
+              href="/login"
+              className="rounded-md px-3 py-2 text-base font-medium text-gray hover:text-secondary"
             >
-              {item.name}
+              Увійти
             </Link>
-          ))}
-        </div>
-
-        {/* Authentication Buttons */}
-        <div className="flex items-center space-x-4">
-          {!isAuthenticated ? (
-            <>
-              <Link
-                href="/login"
-                className="rounded-md px-3 py-2 text-base font-medium text-gray hover:text-secondary"
-              >
-                Увійти
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
-              >
-                Зареєструватися
-              </Link>
-            </>
-          ) : (
-            <div className="flex items-center">
-              {/* Notification */}
-              <button className="relative">
+            <Link
+              href="/register"
+              className="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
+            >
+              Зареєструватися
+            </Link>
+          </>
+        ) : (
+          <div className="flex items-center">
+            {/* Notification */}
+            <button className="relative">
+              <Image
+                src={notificationIcon}
+                alt="Notification"
+                className="h-6 w-6"
+              />
+            </button>
+            {/* Profile Dropdown */}
+            <div className="ml-4 relative">
+              <button onClick={toggleMenu}>
                 <Image
-                  src={notificationIcon}
-                  alt="Notification"
-                  className="h-6 w-6"
+                  src={userLogo}
+                  alt="User Profile"
+                  className="h-8 w-8 rounded-full"
                 />
               </button>
-              {/* Profile Dropdown */}
-              <div className="ml-4 relative">
-                <button onClick={toggleMenu}>
-                  <Image
-                    src={userLogo}
-                    alt="User Profile"
-                    className="h-8 w-8 rounded-full"
-                  />
-                </button>
-                {isOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      Профіль
-                    </Link>
-                    <Link
-                      href="/settings"
-                      className="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      Налаштування
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      Вийти
-                    </button>
-                  </div>
-                )}
-              </div>
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
+                    Профіль
+                  </Link>
+                  <Link
+                    href="/settings"
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
+                    Налаштування
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block px-4 py-2 text-sm text-gray-700"
+                  >
+                    Вийти
+                  </button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </header>
+    </div>
   );
 };
 export default Navigation;
