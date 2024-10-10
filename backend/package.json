@@ -41,7 +41,7 @@
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
@@ -56,9 +56,9 @@
     "@types/node": "^22.7.4",
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
-    "eslint": "^9.11.1",
+    "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.1.6",

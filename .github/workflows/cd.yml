@@ -1,9 +1,6 @@
 name: CD
 on:
   workflow_dispatch:
-  push:
-    paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
-    branches: ["main"]
   pull_request:
     paths-ignore: ["**.md", "LICENSE", ".github/dependabot.yml"]
     branches: ["main"]
@@ -148,8 +145,8 @@ jobs:
           build-args: |
             SHORT_SHA=${{ needs.init.outputs.short_sha }}
             RELEASE_VERSION=${{ needs.init.outputs.release_version }}
-          cache-from: "type=gha"
-          cache-to: "type=gha,mode=max"
+          cache-from: "type=gha,scope=${{ env.IMAGE_NAME }}-${{ matrix.directory }}"
+          cache-to: "type=gha,mode=max,scope=${{ env.IMAGE_NAME }}-${{ matrix.directory }}"
           platforms: ${{ env.IMAGE_PLATFORMS }}
 
       - name: Sign the published Docker image
@@ -191,21 +188,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          cat << EOF > ./.env
+          ${{ secrets.PROJECT_ENV }}
+          EOF
+
       - name: SSH Deploy
         uses: easingthemes/ssh-deploy@v5.1.0
         with:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: >
-            docker-compose.prod.yml
-          TARGET: "/project/${{ env.IMAGE_NAME }}"
+          TARGET: "${{ github.event.repository.name }}/"
+          EXCLUDE: >-
+            .git
+            .github
+            backend
+            database
+            frontend
+            docker-compose.yml
           SCRIPT_BEFORE: |
-            ls -lap
+            ls -lap ${{ github.event.repository.name }}/
           SCRIPT_AFTER: |
-            echo ${{ secrets.PROJECT_ENV }} > .env
-            docker compose --file docker-compose.prod.yml pull
-            docker compose --file docker-compose.prod.yml up --detach
+            docker compose --file ${{ github.event.repository.name }}/docker-compose.prod.yml pull
+            docker compose --file ${{ github.event.repository.name }}/docker-compose.prod.yml up --detach
 
   release:
     name: Publish Release
