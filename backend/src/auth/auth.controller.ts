@@ -4,6 +4,7 @@ import { RegisterUserDto } from './dto/register.dto';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { Logger } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {
@@ -47,14 +48,23 @@ export class AuthController {
   @Get('user')
   async getUser(@Req() req: Request) {
     const token = req.cookies['jwt'];
-    if (!token) return { isAuthenticated: false };
-
+    if (!token) {
+      return { isAuthenticated: false, user: null };
+    }
     try {
       const user = await this.authService.verifyToken(token);
-      return { isAuthenticated: true, user };
+      return {
+        isAuthenticated: true,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+      };
     } catch (error) {
-      Logger.error(error);
-      return { isAuthenticated: false };
+      Logger.error('Token verification failed:', error);
+      throw new UnauthorizedException('Invalid token');
     }
   }
 
