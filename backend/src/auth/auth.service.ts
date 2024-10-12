@@ -4,6 +4,7 @@ import { User } from 'src/users/user.model';
 import { JwtService } from './jwt/jwt.service';
 import * as bcrypt from 'bcrypt';
 import { Logger } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -66,12 +67,18 @@ export class AuthService {
       throw new Error('Internal server error');
     }
   }
-  async verifyToken(token: string): Promise<any> {
+  async verifyToken(token: string): Promise<Partial<User>> {
     try {
-      return this.jwtService.verifyToken(token);
+      const payload = this.jwtService.verifyToken(token);
+      const user = await this.userModel.findByPk(payload.sub);
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+      const { password: _, ...userWithoutPassword } = user.toJSON();
+      return userWithoutPassword;
     } catch (error) {
-      Logger.error(error);
-      throw new Error('Session expired. Please authenticate again.');
+      Logger.error('Token verification failed:', error);
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }

@@ -31,11 +31,13 @@ const Register: React.FC = () => {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('isRegistered', 'true');
         console.log('Registration successful. User is authentificated', data);
+        console.log(data.token);
         router.push('/');
       } else throw new Error('Registration failed');
     } catch (err) {
