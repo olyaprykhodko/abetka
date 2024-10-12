@@ -35,7 +35,7 @@ export class User extends Model<User> {
   password: string;
 
   @Column({
-    type: DataType.ENUM('student', 'teacher'),
+    type: DataType.ENUM('student', 'teacher', 'admin'),
     allowNull: false,
   })
   role: 'student' | 'teacher' | 'admin';

@@ -18,21 +18,22 @@ export class Teacher extends Model<Teacher> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   name: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: true,
+    allowNull: false,
   })
-  bio: string;
+  username: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: true,
+    allowNull: false,
+    unique: true,
   })
-  experienceYears: number;
+  email: string;
 
   @Column({
     type: DataType.STRING,
@@ -42,7 +43,13 @@ export class Teacher extends Model<Teacher> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
-  role: string;
+  bio: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  experienceYears: number;
 }
