@@ -35,5 +35,24 @@ services:
       retries: 2
       start_period: 30s
 
+  minio:
+    image: minio/minio:latest
+    command: server --address ":9000" --console-address ":9001" /data
+    ports:
+      - "0.0.0.0:${MINIO_API_PORT:-9000}:9000/tcp"
+      - "0.0.0.0:${MINIO_CONSOLE_PORT:-9001}:9001/tcp"
+    env_file:
+      - .env.minio
+    volumes:
+      - "minio-data:/data"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 120s
+      timeout: 5s
+      retries: 2
+      start_period: 30s
+
 volumes:
   postgres-data:
+  minio-data:
