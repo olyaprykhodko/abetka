@@ -194,6 +194,12 @@ jobs:
           ${{ secrets.PROJECT_ENV }}
           EOF
 
+      - name: Create .env.minio file
+        run: |
+          cat << EOF > ./.env.minio
+          ${{ secrets.MINIO_ENV }}
+          EOF
+
       - name: SSH Deploy
         uses: easingthemes/ssh-deploy@v5.1.0
         with:
