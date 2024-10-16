@@ -4,9 +4,17 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div>
-        <p>Налаштування профілю</p>
-        <Link href="./notifications">Налаштування сповіщень</Link>
-        <p>Абонементи на оплата</p>
+        <ul>
+          <li>
+            <Link href="/profile">Налаштування профілю</Link>
+          </li>
+          <li>
+            <Link href="/profile/notifications">Налаштування сповіщень</Link>
+          </li>
+          <li>
+            <Link href="/profile/payment">Абонементи на оплата</Link>
+          </li>
+        </ul>
       </div>
     </>
   );

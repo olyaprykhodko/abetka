@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { getUserProfile } from '@/api/userService';
 import Image from 'next/image';
 import user from '../../../public/user.png';
-import Link from 'next/link';
 
 interface UserData {
   id: number;
@@ -187,7 +186,6 @@ const StudentProfile: React.FC = () => {
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
               ></input>
             </div>
-            <Link href="./profile/notifications">NOTIF</Link>
           </div>
         </div>
       </div>

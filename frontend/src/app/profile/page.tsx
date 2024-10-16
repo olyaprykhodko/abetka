@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUserProfile } from '@/api/userService';
 import StudentProfile from './Student';
+import TeacherProfile from './Teacher';
 import Navigation from '@/components/Navigation';
 import Sidebar from './Sidebar';
 
@@ -41,7 +42,7 @@ const Profile: React.FC = () => {
       case 'student':
         return <StudentProfile />;
       case 'teacher':
-        return <div>Teacher Profile: {userData.username}</div>;
+        return <TeacherProfile />;
       case 'admin':
         return <div>Admin Profile: {userData.username}</div>;
       default:
