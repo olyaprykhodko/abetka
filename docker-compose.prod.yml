@@ -36,14 +36,15 @@ services:
       start_period: 30s
 
   minio:
-    image: bitnami/minio:2024-debian-12
+    image: minio/minio:latest
+    command: server --address ":9000" --console-address ":9001" /data
     ports:
       - "0.0.0.0:${MINIO_API_PORT:-9000}:9000/tcp"
       - "0.0.0.0:${MINIO_CONSOLE_PORT:-9001}:9001/tcp"
     env_file:
       - .env.minio
     volumes:
-      - "minio-data:/bitnami/minio/data"
+      - "minio-data:/data"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "mc", "ready", "local"]
