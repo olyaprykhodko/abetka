@@ -147,7 +147,7 @@ const StudentProfile: React.FC = () => {
             >
               Ім&apos;я та прізвище
             </label>
-            <form onSubmit={handleChangeName} className="flex items-center">
+            <form className="flex items-center">
               <input
                 id="full-name"
                 name="full-name"
@@ -155,12 +155,6 @@ const StudentProfile: React.FC = () => {
                 autoComplete="name surname"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              <button
-                type="submit"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
-              >
-                Зберегти
-              </button>
             </form>
           </div>
 
@@ -197,78 +191,6 @@ const StudentProfile: React.FC = () => {
                 autoComplete="bday"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
               ></input>
-            </div>
-          </div>
-
-          <div className="col-span-full">
-            <label
-              htmlFor="street-address"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Street address
-            </label>
-            <div className="mt-2">
-              <input
-                id="street-address"
-                name="street-address"
-                type="text"
-                autoComplete="street-address"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div className="sm:col-span-2 sm:col-start-1">
-            <label
-              htmlFor="city"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              City
-            </label>
-            <div className="mt-2">
-              <input
-                id="city"
-                name="city"
-                type="text"
-                autoComplete="address-level2"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="region"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              State / Province
-            </label>
-            <div className="mt-2">
-              <input
-                id="region"
-                name="region"
-                type="text"
-                autoComplete="address-level1"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="postal-code"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              ZIP / Postal code
-            </label>
-            <div className="mt-2">
-              <input
-                id="postal-code"
-                name="postal-code"
-                type="text"
-                autoComplete="postal-code"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
             </div>
           </div>
         </div>
