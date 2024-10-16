@@ -4,11 +4,6 @@ import { getUserProfile } from '@/api/userService';
 import Image from 'next/image';
 import user from '../../../public/user.png';
 
-import { handleChangeBirthday } from './changeBirthday';
-import { handleChangeName } from './changeName';
-import { handleChangeUsername } from './changeUsername';
-import { handleChangePassword } from './changePassword';
-
 interface UserData {
   id: number;
   username: string;
@@ -19,7 +14,7 @@ interface UserData {
 
 const StudentProfile: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [username, setUsername] = useState(userData?.username);
 
@@ -29,12 +24,14 @@ const StudentProfile: React.FC = () => {
         const data = await getUserProfile();
         setUserData(data.user);
       } catch (err) {
+        console.log(error);
         setError(
           err instanceof Error ? err.message : 'An unknown error occurred'
         );
-      } finally {
-        setLoading(false);
       }
+      // } finally {
+      //   setLoading(false);
+      // }
     };
     fetchUserProfile();
   }, []);
@@ -51,10 +48,7 @@ const StudentProfile: React.FC = () => {
               Ім&apos;я профілю
             </label>
             <div className="mt-2">
-              <form
-                onSubmit={handleChangeUsername}
-                className="flex items-center"
-              >
+              <form className="flex items-center">
                 <input
                   id="username"
                   name="username"
