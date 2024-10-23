@@ -10,6 +10,8 @@ import { Schedule } from './schedules/schedule.model';
 import { Review } from './reviews/review.model';
 import { Payment } from './payments/payment.model';
 import { JwtModule } from './auth/jwt/jwt.module';
+import { MinioModule } from './minio/minio.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { JwtModule } from './auth/jwt/jwt.module';
     AuthModule,
     JwtModule,
     HealthcheckModule,
+    MinioModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

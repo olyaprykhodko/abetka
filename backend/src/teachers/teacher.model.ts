@@ -42,7 +42,7 @@ export class Teacher extends Model<Teacher> {
   password: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: true,
   })
   bio: string;
@@ -52,4 +52,76 @@ export class Teacher extends Model<Teacher> {
     allowNull: true,
   })
   experienceYears: number;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  birthday: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  profilePictureUrl: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  degree: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  speciality: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  university: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  studyYears: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  additionalEducation: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  mainWorkplace: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  mainPosition: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  mainWorkingYears: number;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  otherExperience: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  fullWorkExperience: number;
 }

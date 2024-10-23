@@ -1,4 +1,10 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  AllowNull,
+} from 'sequelize-typescript';
 
 @Table({ tableName: 'Users' })
 export class User extends Model<User> {
@@ -39,4 +45,16 @@ export class User extends Model<User> {
     allowNull: false,
   })
   role: 'student' | 'teacher' | 'admin';
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  birthday: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  profilePictureUrl: string;
 }
