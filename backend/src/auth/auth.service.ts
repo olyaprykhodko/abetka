@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/users/user.model';
 import { JwtService } from './jwt/jwt.service';
 import * as bcrypt from 'bcrypt';
 import { Logger } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
+import { UpdateUserDto } from './dto/update.dto';
 
 @Injectable()
 export class AuthService {
@@ -79,6 +80,28 @@ export class AuthService {
     } catch (error) {
       Logger.error('Token verification failed:', error);
       throw new UnauthorizedException('Invalid token');
+    }
+  }
+
+  async updateUser(userId: number, updateTdata: UpdateUserDto): Promise<User> {
+    try {
+      const user = await this.userModel.findByPk(userId);
+      if (!user) throw new Error('User not found');
+
+      const filteredUpdateData = Object.entries(updateTdata)
+        .filter(([_, value]) => value !== undefined)
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+      await user.update(filteredUpdateData);
+
+      await user.reload();
+
+      const { password: _, ...userWithoutPassword } = user.toJSON();
+      return userWithoutPassword as User;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      Logger.error('Error updating user:', error);
+      throw new Error('Error while updating user');
     }
   }
 }

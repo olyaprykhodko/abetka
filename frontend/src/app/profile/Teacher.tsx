@@ -3,26 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { getUserProfile } from '@/api/userService';
 import Image from 'next/image';
 import user from '../../../public/user.png';
+import { UserData } from '../interfaces/profile/userdata.interface';
 
-interface UserData {
-  id: number;
-  username: string;
-  email: string;
-  role: string;
-  name: string;
+interface TeacherData extends UserData {
+  bio: string;
+  experienceYears: number;
+  about: string;
+  degree: string;
+  speciality: string;
+  university: string;
+  studyYears: string;
+  additionalEducation: string;
+  mainWorkplace: string;
+  mainPosition: string;
+  mainWorkingYears: number;
+  otherExperience: string;
+  fullWorkExperience: number;
 }
 
 const TeacherProfile: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [teacherData, setTeacherData] = useState<TeacherData | null>(null);
   // const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [username, setUsername] = useState(userData?.username);
+  const [username, setUsername] = useState(teacherData?.username);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const data = await getUserProfile();
-        setUserData(data.user);
+        setTeacherData(data.user);
       } catch (err) {
         console.log(error);
         setError(
@@ -55,7 +64,7 @@ const TeacherProfile: React.FC = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder={userData?.username || "Введіть ім'я профілю"}
+                  placeholder={teacherData?.username || "Введіть ім'я профілю"}
                   autoComplete="username"
                   className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -142,7 +151,7 @@ const TeacherProfile: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
-                placeholder={userData?.email}
+                placeholder={teacherData?.email}
                 autoComplete="email"
                 className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -237,11 +246,11 @@ const TeacherProfile: React.FC = () => {
             </label>
             <form className="flex items-center">
               <input
-                id="specialisation"
-                name="specialisation"
+                id="speciality"
+                name="scpeciality"
                 placeholder="Перекладач французької мови"
                 type="text"
-                autoComplete="specialisation"
+                autoComplete="speciality"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </form>
@@ -275,8 +284,8 @@ const TeacherProfile: React.FC = () => {
             </label>
             <form className="flex items-center">
               <input
-                id="education-date"
-                name="education-date"
+                id="study-years"
+                name="study-years"
                 placeholder="2010-2015"
                 type="text"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -369,15 +378,56 @@ const TeacherProfile: React.FC = () => {
               htmlFor="working years"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Тривалість роботи
+              Тривалість роботи (місяців)
             </label>
             <form className="flex items-center">
               <input
                 id="working years"
                 name="working years"
-                placeholder="Харківський національний університет ім. В.Н.Каразіна"
+                placeholder="18"
                 type="text"
                 autoComplete="working years"
+                className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </form>
+          </div>
+
+          <div className="sm:col-span-3">
+            <label
+              htmlFor="add-education"
+              className="block text-sm font-medium leading-6"
+            >
+              Інші місця роботи
+              <p className="my-2 text-sm leading-6 text-gray">
+                Вкажіть додаткові місця роботи через крапку з комою.
+              </p>
+            </label>
+
+            <form className="flex items-center">
+              <textarea
+                id="add-education"
+                name="add-education"
+                rows={5}
+                placeholder="Наприклад: Київський Інститут Бізнесу та Технологій, декан факультету історії економіки, 2011-2020"
+                className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </form>
+          </div>
+
+          <div className="sm:col-span-3">
+            <label
+              htmlFor="working years"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Загальний стаж роботи (років)
+            </label>
+            <form className="flex items-center">
+              <input
+                id="experience years"
+                name="experience years"
+                placeholder="8"
+                type="text"
+                autoComplete="experience years"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </form>

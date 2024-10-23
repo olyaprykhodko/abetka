@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: 'tailwindui.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'bucket.abetka.site',
+        port: '',
+      },
     ],
   },
 };
