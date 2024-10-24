@@ -25,21 +25,25 @@ const StudentProfile: React.FC = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const data = await getUserProfile();
-        console.log('DATA FROM SERVER:', data.user);
-        setUserData(data.user);
-        setUsername(data.user.username || '');
+        setLoading(true);
+        const { isAuthenticated, data } = await getUserProfile();
 
-        const birthdayDate = data.user.birthday
-          ? new Date(data.user.birthday)
-          : null;
+        if (!isAuthenticated || !data) {
+          throw new Error('Authentication required');
+        }
+
+        console.log('User profile contains data:', data);
+        setUserData(data);
+        setUsername(data.username || '');
+
+        const birthdayDate = data.birthday ? new Date(data.birthday) : null;
         const formattedBirthday = birthdayDate
           ? birthdayDate.toISOString().split('T')[0]
           : '';
 
         setPersonalData({
-          name: data.user.name || '',
-          email: data.user.email || '',
+          name: data.name || '',
+          email: data.email || '',
           birthday: formattedBirthday,
         });
 
@@ -48,8 +52,8 @@ const StudentProfile: React.FC = () => {
           setProfilePicture(cachedUrl);
         }
 
-        if (data.user.profilePictureUrl) {
-          const url = await getProfilePictureUrl(data.user.profilePictureUrl);
+        if (data.profilePictureUrl) {
+          const url = await getProfilePictureUrl(data.profilePictureUrl);
           setProfilePicture(url);
           localStorage.setItem('profilePictureUrl', url);
         }
@@ -65,6 +69,7 @@ const StudentProfile: React.FC = () => {
     setUploadedPictureName(null);
   }, []);
 
+  // student username change
   const handleUsernameChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userData) return;

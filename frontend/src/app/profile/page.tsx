@@ -5,13 +5,7 @@ import StudentProfile from './Student';
 import TeacherProfile from './Teacher';
 import Navigation from '@/components/Navigation';
 import Sidebar from './Sidebar';
-
-interface UserData {
-  id: number;
-  username: string;
-  email: string;
-  role: string;
-}
+import { UserData } from '../interfaces/profile/userdata.interface';
 
 const Profile: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -21,8 +15,14 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const data = await getUserProfile();
-        setUserData(data.user);
+        const { isAuthenticated, data } = await getUserProfile();
+
+        if (!isAuthenticated || !data) {
+          setError('Необхідна авторизація');
+          return;
+        }
+
+        setUserData(data);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : 'An unknown error occurred'
@@ -31,6 +31,7 @@ const Profile: React.FC = () => {
         setLoading(false);
       }
     };
+
     fetchUserProfile();
   }, []);
 
@@ -43,8 +44,6 @@ const Profile: React.FC = () => {
         return <StudentProfile />;
       case 'teacher':
         return <TeacherProfile />;
-      case 'admin':
-        return <div>Admin Profile: {userData.username}</div>;
       default:
         return <div>Невідома роль користувача: {userData.username}</div>;
     }

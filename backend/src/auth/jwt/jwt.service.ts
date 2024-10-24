@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.model';
 import { Logger } from '@nestjs/common';
@@ -12,19 +12,25 @@ export class JwtService {
       const payload = { username: user.username, sub: user.id };
       return this.jwtService.sign(payload);
     } catch (error) {
-      console.error('JSON web-token generation error', error);
+      Logger.error('Token generation error:', error);
       throw new Error('Internal server error');
     }
   }
 
-  verifyToken(token: string): any {
+  verifyToken(token: string): { username: string; sub: number } | null {
+    if (!token) {
+      throw new UnauthorizedException('Token not provided');
+    }
+
     try {
-      return this.jwtService.verify(token);
+      const decoded = this.jwtService.verify(token);
+      if (!decoded || !decoded.sub) {
+        throw new UnauthorizedException('Invalid token payload');
+      }
+      return decoded;
     } catch (error) {
-      throw new Error(
-        Logger.error(error) +
-          'Ваша сесія вичерпана. Будь ласка, пройдіть аутентифікацію',
-      );
+      Logger.error('Token verification error:', error);
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }

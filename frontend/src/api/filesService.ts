@@ -1,4 +1,3 @@
-// api/fileService.ts
 const API_URL = process.env.NEXT_PUBLIC_BACKEND;
 
 async function handleResponse<T>(response: Response): Promise<T> {

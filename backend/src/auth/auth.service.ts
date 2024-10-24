@@ -5,7 +5,7 @@ import { JwtService } from './jwt/jwt.service';
 import * as bcrypt from 'bcrypt';
 import { Logger } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update.dto';
+import { UpdateUserDto, UpdateTeacherDto } from './dto/update.dto';
 import { Teacher } from 'src/teachers/teacher.model';
 
 @Injectable()
@@ -62,6 +62,7 @@ export class AuthService {
       }
 
       const token = await this.jwtService.generateToken(user);
+      Logger.log(`User with role ${user.role} created in database`, user);
       return { user, token };
     } catch (error) {
       Logger.debug(error);
@@ -83,18 +84,76 @@ export class AuthService {
       throw new Error('Internal server error');
     }
   }
-  async verifyToken(token: string): Promise<Partial<User>> {
+
+  async verifyAndGetUser(
+    token: string | undefined,
+  ): Promise<{ isAuthenticated: boolean; data: Partial<User> | null }> {
+    if (!token) {
+      return { isAuthenticated: false, data: null };
+    }
+
     try {
       const payload = this.jwtService.verifyToken(token);
+      if (!payload) {
+        return { isAuthenticated: false, data: null };
+      }
+
       const user = await this.userModel.findByPk(payload.sub);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      const { password: _, ...userWithoutPassword } = user.toJSON();
+      return { isAuthenticated: true, data: userWithoutPassword };
+    } catch (error) {
+      Logger.error('Token verification failed:', error);
+      if (error instanceof UnauthorizedException) {
+        return { isAuthenticated: false, data: null };
+      }
+      throw error;
+    }
+  }
+
+  async verifyAndGetTeacher(
+    token: string | undefined,
+  ): Promise<{ isAuthenticated: boolean; data: Partial<Teacher> | null }> {
+    if (!token) {
+      return { isAuthenticated: false, data: null };
+    }
+
+    try {
+      const payload = this.jwtService.verifyToken(token);
+      if (!payload) {
+        return { isAuthenticated: false, data: null };
+      }
+
+      const user = await this.userModel.findByPk(payload.sub);
+
       if (!user) {
         throw new UnauthorizedException('User not found');
       }
-      const { password: _, ...userWithoutPassword } = user.toJSON();
-      return userWithoutPassword;
+
+      if (user.role !== 'teacher') {
+        throw new UnauthorizedException('User is not a teacher');
+      }
+
+      const teacher = await this.teacherModel.findOne({
+        where: { userId: user.id },
+      });
+
+      if (!teacher) {
+        Logger.error(`Teacher not found for user ID: ${user.id}`);
+        return { isAuthenticated: false, data: null };
+      }
+
+      const { password: _, ...teacherWithoutPassword } = teacher.toJSON();
+      return { isAuthenticated: true, data: teacherWithoutPassword };
     } catch (error) {
       Logger.error('Token verification failed:', error);
-      throw new UnauthorizedException('Invalid token');
+      if (error instanceof UnauthorizedException) {
+        return { isAuthenticated: false, data: null };
+      }
+      throw error;
     }
   }
 
@@ -117,6 +176,32 @@ export class AuthService {
       if (error instanceof NotFoundException) throw error;
       Logger.error('Error updating user:', error);
       throw new Error('Error while updating user');
+    }
+  }
+
+  async updateTeacher(
+    teacherId: number,
+    updateData: UpdateTeacherDto,
+  ): Promise<Teacher> {
+    try {
+      const teacher = await this.teacherModel.findByPk(teacherId);
+      if (!teacher) {
+        throw new NotFoundException('Teacher not found');
+      }
+
+      const filteredUpdateData = Object.entries(updateData)
+        .filter(([_, value]) => value !== undefined)
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+      await teacher.update(filteredUpdateData);
+      await teacher.reload();
+
+      const { password: _, ...teacherWithoutPassword } = teacher.toJSON();
+      return teacherWithoutPassword as Teacher;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      Logger.error('Error updating teacher:', error);
+      throw new Error('Error while updating teacher');
     }
   }
 }

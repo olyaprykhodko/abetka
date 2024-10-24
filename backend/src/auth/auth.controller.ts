@@ -10,12 +10,15 @@ import {
 } from '@nestjs/common';
 import { LoginUserDto } from './dto/login.dto';
 import { RegisterUserDto } from './dto/register.dto';
-import { UpdateUserDto } from './dto/update.dto';
+import { UpdateTeacherDto, UpdateUserDto } from './dto/update.dto';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { Logger } from '@nestjs/common';
 import { UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { User } from 'src/users/user.model';
+import { StudentDto, StudentResponseDto } from 'src/users/student.dto';
+import { TeacherDto, TeacherResponseDto } from 'src/teachers/teacher.dto';
+import { UserResponseDto } from './dto/response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -67,26 +70,63 @@ export class AuthController {
   }
 
   @Get('user')
-  async getUser(@Req() req: Request) {
-    const token = req.cookies['jwt'];
-    if (!token) {
-      return { isAuthenticated: false, user: null };
-    }
+  async getUser(@Req() req: Request): Promise<StudentResponseDto> {
+    const { isAuthenticated, data } = await this.authService.verifyAndGetUser(
+      req.cookies['jwt'],
+    );
+
+    if (!isAuthenticated || !data) return new StudentResponseDto(false, null);
+
+    const userDto: StudentDto = {
+      id: Number(data.id),
+      username: String(data.username),
+      name: String(data.name),
+      email: String(data.email),
+      role: String(data.role),
+      birthday: String(data.birthday),
+    };
+    return new StudentResponseDto(true, userDto);
+  }
+
+  @Get('teacher')
+  async getTeacher(@Req() req: Request): Promise<TeacherResponseDto> {
     try {
-      const user = await this.authService.verifyToken(token);
-      return {
-        isAuthenticated: true,
-        user: {
-          id: user.id,
-          username: user.username,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
+      const { isAuthenticated, data } =
+        await this.authService.verifyAndGetTeacher(req.cookies['jwt']);
+
+      if (!isAuthenticated || !data) {
+        return new TeacherResponseDto(false, null);
+      }
+
+      const teacherDto: TeacherDto = {
+        id: Number(data.id),
+        username: String(data.username || ''),
+        name: data.name || null,
+        email: String(data.email || ''),
+        bio: data.bio || null,
+        degree: data.degree || null,
+        speciality: data.speciality || null,
+        university: data.university || null,
+        studyYears: data.studyYears || null,
+        additionalEducation: data.additionalEducation || null,
+        mainWorkplace: data.mainWorkplace || null,
+        mainPosition: data.mainPosition || null,
+        mainWorkingYears: data.mainWorkingYears
+          ? String(data.mainWorkingYears)
+          : null,
+        otherExperience: data.otherExperience || null,
+        experienceYears: data.experienceYears
+          ? Number(data.experienceYears)
+          : undefined,
       };
+
+      return new TeacherResponseDto(true, teacherDto);
     } catch (error) {
-      Logger.error('Token verification failed:', error);
-      throw new UnauthorizedException('Invalid token');
+      Logger.error('Error in getTeacher:', error);
+      if (error instanceof UnauthorizedException) {
+        return new TeacherResponseDto(false, null);
+      }
+      throw error;
     }
   }
 
@@ -94,40 +134,92 @@ export class AuthController {
   async updateUser(
     @Req() req: Request,
     @Body() updateData: UpdateUserDto,
-  ): Promise<{ user: Partial<User> }> {
+  ): Promise<UserResponseDto> {
     try {
-      const token = req.cookies['jwt'];
-      if (!token) {
+      const { isAuthenticated, data } = await this.authService.verifyAndGetUser(
+        req.cookies['jwt'],
+      );
+
+      if (!isAuthenticated || !data) {
         throw new UnauthorizedException('Authentication required');
       }
 
-      const currentUser = await this.authService.verifyToken(token);
-      if (!currentUser || !currentUser.id) {
-        throw new UnauthorizedException('Invalid user token');
+      if (!data.id || !data.email || !data.role || !data.username) {
+        throw new BadRequestException('Invalid user data');
       }
 
       const updatedUser = await this.authService.updateUser(
-        currentUser.id,
+        data.id,
         updateData,
       );
 
-      return {
-        user: {
-          id: currentUser.id,
-          username: updatedUser.username,
-          email: currentUser.email, // CHANGE WHEN ADDED CHANGE EMAIL FUNCTIONALITY
-          role: currentUser.role,
-          name: updatedUser.name,
-          birthday: updatedUser.birthday,
-          profilePictureUrl: updatedUser.profilePictureUrl,
-        },
+      const userDto = {
+        id: Number(updatedUser.id),
+        username: String(updatedUser.username),
+        name: updatedUser.name ?? null,
+        email: String(data.email),
+        role: String(data.role),
+        birthday: updatedUser.birthday ?? null,
+        profilePictureUrl: updatedUser.profilePictureUrl ?? null,
       };
+
+      return new UserResponseDto(true, userDto);
     } catch (error) {
       Logger.error('Error updating user:', error);
       if (error instanceof UnauthorizedException) {
         throw error;
       }
       throw new BadRequestException(error.message || 'Error updating user');
+    }
+  }
+
+  @Patch('teacher')
+  async updateTeacher(
+    @Req() req: Request,
+    @Body() updateData: UpdateTeacherDto,
+  ): Promise<TeacherResponseDto> {
+    try {
+      const { isAuthenticated, data } =
+        await this.authService.verifyAndGetTeacher(req.cookies['jwt']);
+
+      if (!isAuthenticated || !data) {
+        throw new UnauthorizedException('Authentication required');
+      }
+
+      const updatedTeacher = await this.authService.updateTeacher(
+        data.id,
+        updateData,
+      );
+
+      const teacherDto = {
+        id: Number(updatedTeacher.id),
+        username: String(updatedTeacher.username),
+        name: updatedTeacher.name ?? null,
+        email: String(data.email),
+        bio: updatedTeacher.bio ?? null,
+        degree: updatedTeacher.degree ?? null,
+        speciality: updatedTeacher.speciality ?? null,
+        university: updatedTeacher.university ?? null,
+        studyYears: updatedTeacher.studyYears ?? null,
+        additionalEducation: updatedTeacher.additionalEducation ?? null,
+        mainWorkplace: updatedTeacher.mainWorkplace ?? null,
+        mainPosition: updatedTeacher.mainPosition ?? null,
+        mainWorkingYears: updatedTeacher.mainWorkingYears
+          ? String(updatedTeacher.mainWorkingYears)
+          : null,
+        otherExperience: updatedTeacher.otherExperience ?? null,
+        experienceYears: updatedTeacher.experienceYears
+          ? Number(updatedTeacher.experienceYears)
+          : undefined,
+      };
+
+      return new TeacherResponseDto(true, teacherDto);
+    } catch (error) {
+      Logger.error('Error updating teacher:', error);
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message || 'Error updating teacher');
     }
   }
 }

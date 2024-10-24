@@ -2,7 +2,12 @@ import { UserData } from '@/app/interfaces/profile/userdata.interface';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND;
 
-export const getUserProfile = async () => {
+interface UserResponse {
+  isAuthenticated: boolean;
+  data: UserData | null;
+}
+
+export const getUserProfile = async (): Promise<UserResponse> => {
   try {
     const response = await fetch(`${BACKEND_URL}/auth/user`, {
       credentials: 'include',
@@ -16,7 +21,7 @@ export const getUserProfile = async () => {
     }
 
     const data = await response.json();
-    console.log('User profile data:', data.user.role);
+    console.log('User profile data:', data);
     return data;
   } catch (error) {
     console.error('Error fetching user profile:', error);

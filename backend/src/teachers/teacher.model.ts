@@ -48,12 +48,6 @@ export class Teacher extends Model<Teacher> {
   bio: string;
 
   @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  experienceYears: number;
-
-  @Column({
     type: DataType.DATE,
     allowNull: true,
   })
@@ -123,5 +117,5 @@ export class Teacher extends Model<Teacher> {
     type: DataType.INTEGER,
     allowNull: true,
   })
-  fullWorkExperience: number;
+  experienceYears: number;
 }
