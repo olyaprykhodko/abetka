@@ -6,11 +6,13 @@ import * as bcrypt from 'bcrypt';
 import { Logger } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update.dto';
+import { Teacher } from 'src/teachers/teacher.model';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User) private readonly userModel: typeof User,
+    @InjectModel(Teacher) private readonly teacherModel: typeof Teacher,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -39,6 +41,8 @@ export class AuthService {
       throw new Error('Password is required');
     }
     const hashPassword = await bcrypt.hash(password, 10);
+
+    // create any user
     try {
       const user = await this.userModel.create<User>({
         username,
@@ -46,6 +50,17 @@ export class AuthService {
         password: hashPassword,
         role,
       } as User);
+
+      // if role = 'teacher'
+      if (user.role === 'teacher') {
+        await this.teacherModel.create<Teacher>({
+          userId: user.id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+        } as Teacher);
+      }
+
       const token = await this.jwtService.generateToken(user);
       return { user, token };
     } catch (error) {
