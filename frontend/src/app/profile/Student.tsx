@@ -3,10 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getUserProfile, updateUserProfile } from '@/api/userService';
-import {
-  uploadProfilePicture,
-  getProfilePictureUrl,
-} from '@/services/filesService';
+import { uploadProfilePicture, getProfilePictureUrl } from '@/api/filesService';
 import { UserData } from '../interfaces/profile/userdata.interface';
 import user from '../../../public/user.png';
 
