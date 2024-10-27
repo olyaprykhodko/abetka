@@ -12,4 +12,6 @@ RUN npm run build
 
 EXPOSE 3500
 
+USER node
+
 CMD ["npm", "run", "start:dev"]
