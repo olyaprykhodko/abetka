@@ -9,7 +9,8 @@ RUN npm ci
 
 COPY --chown=node:node . .
 
-RUN npm run build
+RUN npm run build && \
+    chown -R node:node .next
 
 USER node
 
