@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY --chown=node:node package*.json ./
 
+# TODO: npm ci --omit=dev
 RUN npm ci
 
 COPY --chown=node:node . .
@@ -13,6 +14,6 @@ RUN npm run build
 
 USER node
 
-EXPOSE 3500
+EXPOSE 3000
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "dev"]
