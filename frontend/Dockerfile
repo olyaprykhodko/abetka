@@ -1,6 +1,9 @@
+# TODO: multi-stage build
 FROM node:22-alpine
 
 WORKDIR /app
+
+USER node
 
 COPY package*.json ./
 
@@ -11,7 +14,5 @@ COPY . .
 RUN npm run build
 
 EXPOSE 3000
-
-USER node
 
 CMD ["npm", "run", "dev"]
