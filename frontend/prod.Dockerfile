@@ -10,10 +10,12 @@ RUN npm ci
 
 COPY --chown=node:node . .
 
-RUN npm run build
+RUN npm run build && \
+    chown -R node:node .next
 
 USER node
 
 EXPOSE 3000
 
+# TODO: add nginx for serving static files
 CMD ["npm", "run", "dev"]
