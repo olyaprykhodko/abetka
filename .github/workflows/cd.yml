@@ -136,6 +136,7 @@ jobs:
         with:
           context: ${{ matrix.directory }}
           push: ${{ github.event_name != 'pull_request' }}
+          file: ${{ matrix.directory }}/prod.Dockerfile
           tags: |
             ${{ steps.meta.outputs.tags }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.directory }}:${{ needs.init.outputs.release_version }}

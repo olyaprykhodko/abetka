@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY --chown=node:node package*.json ./
 
+# TODO: npm ci --omit=dev
 RUN npm ci
 
 COPY --chown=node:node . .
@@ -16,4 +17,5 @@ USER node
 
 EXPOSE 3000
 
+# TODO: add nginx for serving static files
 CMD ["npm", "run", "dev"]

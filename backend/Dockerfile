@@ -1,14 +1,17 @@
+# TODO: multi-stage build
 FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . .
+COPY --chown=node:node . .
 
 RUN npm run build
+
+USER node
 
 EXPOSE 3500
 
