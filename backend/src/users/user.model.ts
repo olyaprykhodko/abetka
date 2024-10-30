@@ -4,7 +4,9 @@ import {
   Model,
   DataType,
   AllowNull,
+  HasOne,
 } from 'sequelize-typescript';
+import { Teacher } from 'src/teachers/teacher.model';
 
 @Table({ tableName: 'Users' })
 export class User extends Model<User> {
@@ -14,12 +16,6 @@ export class User extends Model<User> {
     primaryKey: true,
   })
   id: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  name: string;
 
   @Column({
     type: DataType.STRING,
@@ -41,10 +37,22 @@ export class User extends Model<User> {
   password: string;
 
   @Column({
-    type: DataType.ENUM('student', 'teacher', 'admin'),
+    type: DataType.ENUM('student', 'teacher'),
     allowNull: false,
   })
-  role: 'student' | 'teacher' | 'admin';
+  role: 'student' | 'teacher';
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  name: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  profilePictureUrl: string;
 
   @Column({
     type: DataType.DATE,
@@ -52,9 +60,6 @@ export class User extends Model<User> {
   })
   birthday: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  profilePictureUrl: string;
+  @HasOne(() => Teacher)
+  teacher: Teacher;
 }

@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { User } from 'src/users/user.model';
 
@@ -17,47 +18,10 @@ export class Teacher extends Model<Teacher> {
   userId: number;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  name: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  username: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-    unique: true,
-  })
-  email: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  password: string;
-
-  @Column({
     type: DataType.TEXT,
     allowNull: true,
   })
   bio: string;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: true,
-  })
-  birthday: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  profilePictureUrl: string;
 
   @Column({
     type: DataType.STRING,
@@ -118,4 +82,7 @@ export class Teacher extends Model<Teacher> {
     allowNull: true,
   })
   experienceYears: number;
+
+  @BelongsTo(() => User)
+  user: User;
 }
