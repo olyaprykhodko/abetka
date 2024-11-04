@@ -1,152 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { getUserProfile, updateUserProfile } from '@/api/userService';
-import { uploadProfilePicture, getProfilePictureUrl } from '@/api/filesService';
-import { UserData } from '../interfaces/profile/userdata.interface';
-import user from '../../../public/user.png';
 
 const StudentProfile: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [username, setUsername] = useState('');
-  const [personalData, setPersonalData] = useState({
-    name: '',
-    email: '',
-    birthday: '',
-  });
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [uploadedPictureName, setUploadedPictureName] = useState<string | null>(
-    null
-  );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        setLoading(true);
-        const { isAuthenticated, data } = await getUserProfile();
-
-        if (!isAuthenticated || !data) {
-          throw new Error('Authentication required');
-        }
-
-        console.log('User profile contains data:', data);
-        setUserData(data);
-        setUsername(data.username || '');
-
-        const birthdayDate = data.birthday ? new Date(data.birthday) : null;
-        const formattedBirthday = birthdayDate
-          ? birthdayDate.toISOString().split('T')[0]
-          : '';
-
-        setPersonalData({
-          name: data.name || '',
-          email: data.email || '',
-          birthday: formattedBirthday,
-        });
-
-        const cachedUrl = localStorage.getItem('profilePictureUrl');
-        if (cachedUrl) {
-          setProfilePicture(cachedUrl);
-        }
-
-        if (data.profilePictureUrl) {
-          const url = await getProfilePictureUrl(data.profilePictureUrl);
-          setProfilePicture(url);
-          localStorage.setItem('profilePictureUrl', url);
-        }
-      } catch (err) {
-        setError('Failed to load user profile');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-    setUploadedPictureName(null);
-  }, []);
-
-  // student username change
-  const handleUsernameChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userData) return;
-
-    try {
-      const response = await updateUserProfile({ username });
-      setUserData(response.user);
-      setError(null);
-    } catch (err) {
-      setError('Failed to update username');
-      console.error(err);
-    }
-  };
-
-  const handlePersonalDataChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userData) return;
-
-    try {
-      const formData = {
-        name: personalData.name,
-        email: personalData.email,
-        birthday: personalData.birthday
-          ? new Date(personalData.birthday).toISOString()
-          : null,
-      };
-
-      const response = await updateUserProfile(formData);
-      setUserData(response.user);
-      setError(null);
-    } catch (err) {
-      setError('Failed to update personal data');
-      console.error(err);
-    }
-  };
-
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-
-    if (file && userData) {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const { fileName } = await uploadProfilePicture(file);
-        const url = await getProfilePictureUrl(fileName);
-
-        setProfilePicture(url);
-        localStorage.setItem('profilePictureUrl', url);
-
-        const response = await updateUserProfile({
-          ...userData,
-          profilePictureUrl: fileName,
-        });
-
-        setUserData(response.user);
-        setUploadedPictureName(file.name);
-      } catch (err) {
-        setError('Failed to upload profile picture');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
-  console.log('personalData:', personalData);
-
   return (
     <div className="space-y-12">
       {/* Username Form */}
-      <form
-        onSubmit={handleUsernameChange}
-        className="border-b border-gray-900/10 pb-12"
-      >
+      <form className="border-b border-gray-900/10 pb-12">
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-4">
             <label
@@ -160,8 +20,6 @@ const StudentProfile: React.FC = () => {
                 id="username"
                 name="username"
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
                 className="block w-full rounded-full border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -188,48 +46,36 @@ const StudentProfile: React.FC = () => {
           <div className="mt-2 flex flex-wrap items-start gap-x-3">
             <Image
               className="h-32 w-32 rounded-full object-cover border-2 border-gray-200"
-              src={profilePicture || user}
+              src=""
               width={300}
               height={300}
               alt="Profile picture"
-              onError={() => {
-                setProfilePicture(null);
-                localStorage.removeItem('profilePictureUrl');
-              }}
             />
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="file-upload"
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
               >
-                {loading ? 'Завантаження' : 'Змінити'}
+                Змінити
                 <input
                   id="file-upload"
                   name="file-upload"
                   type="file"
                   accept="image/*"
                   className="sr-only"
-                  onChange={handleFileUpload}
                 />
               </label>
               <p className="text-xs leading-5 text-gray-600">
                 Завантажте файл формату PNG, JPG або GIF розміром до 10MB
               </p>
-              {uploadedPictureName && (
-                <p className="text-sm text-green-600">
-                  Файл {uploadedPictureName} успішно завантажено
-                </p>
-              )}
+              <p className="text-sm text-green-600">Файл успішно завантажено</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Personal Data Form */}
-      <form
-        onSubmit={handlePersonalDataChange}
-        className="border-b border-gray-900/10 pb-12"
-      >
+      <form className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           Особисті дані
         </h2>
@@ -251,10 +97,6 @@ const StudentProfile: React.FC = () => {
               name="name"
               type="text"
               autoComplete="name surname"
-              value={personalData.name || userData?.name || ''}
-              onChange={(e) =>
-                setPersonalData({ ...personalData, name: e.target.value })
-              }
               className="block w-full rounded-full border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -270,11 +112,7 @@ const StudentProfile: React.FC = () => {
               id="email"
               name="email"
               type="email"
-              value={userData?.email}
               autoComplete="email"
-              onChange={(e) =>
-                setPersonalData({ ...personalData, email: e.target.value })
-              }
               className="block w-full rounded-full border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -290,10 +128,6 @@ const StudentProfile: React.FC = () => {
               id="birthday"
               name="birthday"
               type="date"
-              value={personalData.birthday}
-              onChange={(e) =>
-                setPersonalData({ ...personalData, birthday: e.target.value })
-              }
               autoComplete="bday"
               className="block w-full rounded-full border border-gray-300 py-0 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -309,7 +143,6 @@ const StudentProfile: React.FC = () => {
           </button>
         </div>
       </form>
-      {error && <div className="text-red-500 mt-2">{error}</div>}
     </div>
   );
 };

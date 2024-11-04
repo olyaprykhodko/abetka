@@ -1,57 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { getUserProfile } from '@/api/userService';
-import StudentProfile from './Student';
-import TeacherProfile from './Teacher';
 import Navigation from '@/components/Navigation';
 import Sidebar from './Sidebar';
-import { UserData } from '../interfaces/profile/userdata.interface';
 
 const Profile: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const { isAuthenticated, data } = await getUserProfile();
-
-        if (!isAuthenticated || !data) {
-          setError('Необхідна авторизація');
-          return;
-        }
-
-        setUserData(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'An unknown error occurred'
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-  const renderProfile = () => {
-    if (!userData) {
-      return <div>Будь ласка, увійдіть до системи для перегляду профілю</div>;
-    }
-    switch (userData.role) {
-      case 'student':
-        return <StudentProfile />;
-      case 'teacher':
-        return <TeacherProfile />;
-      default:
-        return <div>Невідома роль користувача: {userData.username}</div>;
-    }
-  };
-
-  if (loading) return <div>Завантаження профілю користувача...</div>;
-  if (error) return <div>Помилка: {error}</div>;
-
   return (
     <div className="bg-background relative overflow-hidden">
       <div className="relative isolate px-4 pt-1 lg:px-14">
@@ -84,12 +35,7 @@ const Profile: React.FC = () => {
               <Sidebar />
             </div>
             <div className="w-full md:w-3/4 md:pl-8">
-              {userData && (
-                <h1 className="text-2xl font-bold mb-8">
-                  Налаштування профілю: {userData.role} {userData.username}
-                </h1>
-              )}
-              {renderProfile()}
+              <h1 className="text-2xl font-bold mb-8">Налаштування профілю:</h1>
             </div>
           </div>
         </div>

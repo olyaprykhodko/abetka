@@ -1,212 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { getTeacherProfile, updateTeacherProfile } from '@/api/teacherService';
-import { uploadProfilePicture, getProfilePictureUrl } from '@/api/filesService';
 import Image from 'next/image';
-import user from '../../../public/user.png';
-import { TeacherData } from '../interfaces/profile/teacherdata.interface';
 
 const TeacherProfile: React.FC = () => {
-  const [teacherData, setTeacherData] = useState<TeacherData | null>(null);
-  const [username, setUsername] = useState('');
-  const [personalData, setPersonalData] = useState({
-    name: '',
-    email: '',
-    birthday: '',
-    bio: '',
-  });
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [educationData, setEducationData] = useState({
-    degree: '',
-    speciality: '',
-    university: '',
-    studyYears: '',
-    additionalEducation: '',
-  });
-  const [experienceData, setExperienceData] = useState({
-    mainWorkplace: '',
-    mainPosition: '',
-    mainWorkingYears: '',
-    otherExperience: '',
-    experienceYears: '',
-  });
-
-  useEffect(() => {
-    const fetchTeacherProfile = async () => {
-      try {
-        setLoading(true);
-        const { isAuthenticated, data } = await getTeacherProfile();
-
-        if (!isAuthenticated || !data) {
-          throw new Error('Authentication required');
-        }
-
-        setTeacherData(data);
-        setUsername(data.username || '');
-
-        setPersonalData({
-          name: data.name || '',
-          email: data.email || '',
-          birthday: data.birthday || '',
-          bio: data.bio || '',
-        });
-
-        setEducationData({
-          degree: data.degree || '',
-          speciality: data.speciality || '',
-          university: data.university || '',
-          studyYears: data.studyYears || '',
-          additionalEducation: data.additionalEducation || '',
-        });
-
-        setExperienceData({
-          mainWorkplace: data.mainWorkplace || '',
-          mainPosition: data.mainPosition || '',
-          mainWorkingYears: data.mainWorkingYears?.toString() || '',
-          otherExperience: data.otherExperience || '',
-          experienceYears: data.experienceYears?.toString() || '',
-        });
-
-        const cachedUrl = localStorage.getItem('profilePictureUrl');
-        if (cachedUrl) {
-          setProfilePicture(cachedUrl);
-        }
-
-        if (data.profilePictureUrl) {
-          const url = await getProfilePictureUrl(data.profilePictureUrl);
-          setProfilePicture(url);
-          localStorage.setItem('profilePictureUrl', url);
-        }
-      } catch (err) {
-        setError('Failed to load teacher profile:' + error);
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeacherProfile();
-  }, []);
-
-  // event handlers
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file || !teacherData) return;
-
-    try {
-      setLoading(true);
-      const { fileName } = await uploadProfilePicture(file);
-      const updatedTeacher = await updateTeacherProfile({
-        ...teacherData,
-        profilePictureUrl: fileName,
-      });
-
-      const url = await getProfilePictureUrl(fileName);
-      setProfilePicture(url);
-      localStorage.setItem('profilePictureUrl', url);
-
-      setTeacherData(updatedTeacher);
-    } catch (err) {
-      setError('Failed to upload profile picture');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePersonalDataChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!teacherData) return;
-
-    try {
-      setLoading(true);
-
-      const updatedTeacher = await updateTeacherProfile({
-        ...teacherData,
-        name: personalData.name,
-        birthday: personalData.birthday,
-        bio: personalData.bio,
-      });
-      setTeacherData(updatedTeacher);
-    } catch (err) {
-      setError('Failed to update personal data');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleEducationDataChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!teacherData) return;
-
-    try {
-      setLoading(true);
-      const updatedTeacher = await updateTeacherProfile({
-        ...teacherData,
-        degree: educationData.degree,
-        speciality: educationData.speciality,
-        university: educationData.university,
-        studyYears: educationData.studyYears,
-        additionalEducation: educationData.additionalEducation,
-      });
-      setTeacherData(updatedTeacher);
-    } catch (err) {
-      setError('Failed to update education data');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleExperienceDataChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!teacherData) return;
-
-    try {
-      setLoading(true);
-      const updatedTeacher = await updateTeacherProfile({
-        ...teacherData,
-        mainWorkplace: experienceData.mainWorkplace,
-        mainPosition: experienceData.mainPosition,
-        mainWorkingYears: experienceData.mainWorkingYears,
-        otherExperience: experienceData.otherExperience,
-        experienceYears: parseInt(experienceData.experienceYears) || undefined,
-      });
-
-      setTeacherData(updatedTeacher);
-    } catch (err) {
-      setError('Failed to update experience data');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUsernameChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!teacherData) return;
-
-    try {
-      setLoading(true);
-      const updatedTeacher = await updateTeacherProfile({
-        ...teacherData,
-        username,
-      });
-      setTeacherData(updatedTeacher);
-    } catch (err) {
-      setError('Failed to update username');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <form className="space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
@@ -219,17 +15,12 @@ const TeacherProfile: React.FC = () => {
               Ім&apos;я профілю
             </label>
             <div className="mt-2">
-              <form
-                className="flex items-center"
-                onSubmit={handleUsernameChange}
-              >
+              <form className="flex items-center">
                 <input
                   id="username"
                   name="username"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder={teacherData?.username || "Введіть ім'я профілю"}
+                  placeholder="Введіть ім'я профілю"
                   autoComplete="username"
                   className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -237,7 +28,8 @@ const TeacherProfile: React.FC = () => {
                   type="submit"
                   className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
                 >
-                  {loading ? 'Збереження...' : 'Зберегти'}
+                  {' '}
+                  Зберегти
                 </button>
               </form>
             </div>
@@ -251,9 +43,8 @@ const TeacherProfile: React.FC = () => {
             </label>
             <div className="mt-2 flex items-center gap-x-3">
               <Image
-                aria-hidden="true"
+                src=""
                 className="h-24 w-24 text-gray-300"
-                src={profilePicture || user}
                 alt="user_picture"
                 width={300}
                 height={300}
@@ -268,7 +59,6 @@ const TeacherProfile: React.FC = () => {
                   name="file-upload"
                   type="file"
                   className="sr-only"
-                  onChange={handleFileUpload}
                 />
               </label>
               <p className="text-xs leading-5 text-gray-600">
@@ -288,10 +78,7 @@ const TeacherProfile: React.FC = () => {
           маєте постійний доступ.
         </p>
 
-        <form
-          className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
-          onSubmit={handlePersonalDataChange}
-        >
+        <form className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="full-name"
@@ -320,7 +107,6 @@ const TeacherProfile: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
-                placeholder={teacherData?.email}
                 autoComplete="email"
                 className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -376,10 +162,7 @@ const TeacherProfile: React.FC = () => {
           Зберегти
         </button>
       </div>
-      <div
-        className="border-b border-gray-900/10 pb-12"
-        onSubmit={handleEducationDataChange}
-      >
+      <div className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           Освіта
         </h2>
@@ -506,10 +289,7 @@ const TeacherProfile: React.FC = () => {
           перевірятимуться.
         </p>
 
-        <form
-          className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
-          onSubmit={handleExperienceDataChange}
-        >
+        <form className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="workplace"
