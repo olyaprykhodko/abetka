@@ -1,48 +1,53 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Navigation from '../../components/Navigation';
-// import Image from 'next/image';
+import Navigation from '@/components/Navigation';
+import { SignUpData } from '../interfaces/signup-data.interface';
+import { useAuth } from '../context/AuthContext';
 
-const Register: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState<'student' | 'teacher'>('student');
-  const [error, setError] = useState('');
-  const router = useRouter();
+const SignUp: React.FC = () => {
+  const [formData, setFormData] = useState<SignUpData>({
+    username: '',
+    email: '',
+    password: '',
+    role: 'student',
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { signUp } = useAuth();
 
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND;
+  const handleFormData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
 
-  const handleRegister = async (e: React.FormEvent) => {
+    if (name === 'role') {
+      if (value === 'student' || value === 'teacher') {
+        setFormData((prev) => ({
+          ...prev,
+          role: value,
+        }));
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
     try {
-      const response = await fetch(`${BACKEND_URL}/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-          role,
-        }),
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-      console.log(data);
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('isRegistered', 'true');
-        console.log('Registration successful. User is authentificated', data);
-        console.log(data.token);
-        router.push('/');
-      } else throw new Error('Registration failed');
+      await signUp(formData);
     } catch (err) {
-      setError('Registration failed');
+      setError(err instanceof Error ? err.message : 'Помилка реєстрації');
       console.error('Registration error', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +63,13 @@ const Register: React.FC = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleRegister} className="space-y-6">
+          {error && (
+            <div className="mb-4 p-3 text-sm text-red-500 bg-red-100 rounded-md">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSignUp} className="space-y-6">
             <div>
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Ім&apos;я користувача (логін)
@@ -66,8 +77,10 @@ const Register: React.FC = () => {
               <div className="mt-2">
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="username"
+                  value={formData.username}
+                  onChange={handleFormData}
+                  disabled={isLoading}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   required
                 />
@@ -81,8 +94,10 @@ const Register: React.FC = () => {
               <div className="mt-2">
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFormData}
+                  disabled={isLoading}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   required
                 />
@@ -96,9 +111,11 @@ const Register: React.FC = () => {
               <div className="mt-2">
                 <input
                   type="password"
+                  name="password"
                   placeholder="Пароль (цифри та латинські символи, довжина не менше 8)"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleFormData}
+                  disabled={isLoading}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   required
                 />
@@ -128,10 +145,8 @@ const Register: React.FC = () => {
                   </svg>
                 </span>
                 <select
-                  value={role}
-                  onChange={(e) =>
-                    setRole(e.target.value as 'student' | 'teacher')
-                  }
+                  value={formData.role}
+                  onChange={handleFormData}
                   className="block w-full cursor-default appearance-none rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 >
                   <option value="student">Я студент</option>
@@ -140,14 +155,18 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Зареєструватися
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white 
+          ${
+            isLoading
+              ? 'bg-indigo-400 cursor-not-allowed'
+              : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+          }`}
+            >
+              {isLoading ? 'Реєстрація...' : 'Зареєструватися'}
+            </button>
           </form>
 
           {error && <h3 className="text-red-500 mt-4">{error}</h3>}
@@ -157,4 +176,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default SignUp;

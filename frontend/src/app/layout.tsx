@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import './globals.css';
 
+import React from 'react';
+import { AuthProvider } from '@/app/context/AuthContext';
+
 export const metadata: Metadata = {
   title: 'Абетка',
   icons: {
@@ -20,7 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

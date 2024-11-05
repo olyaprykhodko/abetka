@@ -1,39 +1,29 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Navigation from '../../components/Navigation';
+import Navigation from '@/components/Navigation';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
-
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND;
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
     try {
-      const response = await fetch(`${BACKEND_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        console.log('Login successful');
-        router.push('/');
-      } else throw new Error('Login failed');
-    } catch (error) {
-      console.error('Login failed', error);
+      await login(email, password);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Помилка входу');
+      console.error('Login error', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +40,12 @@ const Login: React.FC = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          {error && (
+            <div className="mb-4 p-3 text-sm text-red-500 bg-red-100 rounded-md">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -58,8 +54,10 @@ const Login: React.FC = () => {
               <div className="mt-2">
                 <input
                   type="email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   required
                 />
@@ -73,7 +71,7 @@ const Login: React.FC = () => {
                 </label>
                 <div className="text-sm">
                   <Link
-                    href=""
+                    href="/password-recovery"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Забули пароль?
@@ -83,8 +81,10 @@ const Login: React.FC = () => {
               <div className="mt-2">
                 <input
                   type="password"
+                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   required
                 />
@@ -94,15 +94,23 @@ const Login: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                disabled={isLoading}
+                className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+                  ${
+                    isLoading
+                      ? 'bg-indigo-400 cursor-not-allowed'
+                      : 'bg-indigo-600 hover:bg-indigo-500'
+                  }
+                `}
               >
-                Увійти
+                {isLoading ? 'Виконується вхід...' : 'Увійти'}
               </button>
             </div>
           </form>
+
           <p className="mt-10 text-center text-sm text-gray-500">
             <Link
-              href="/register"
+              href="/signup"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Створити новий акаунт
