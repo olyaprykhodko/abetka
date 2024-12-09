@@ -7,8 +7,6 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore"
-    assignees:
-      - "unleftie"
     labels:
       - "dependencies"
       - "dependabot"
@@ -22,8 +20,6 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore"
-    assignees:
-      - "unleftie"
     labels:
       - "dependencies"
       - "dependabot"
@@ -34,8 +30,6 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore"
-    assignees:
-      - "unleftie"
     labels:
       - "dependencies"
       - "dependabot"
