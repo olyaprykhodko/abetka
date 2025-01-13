@@ -45,7 +45,7 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.6.0",
+    "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.5.0",
     "@nestjs/cli": "^10.4.8",
     "@nestjs/schematics": "^10.2.3",
