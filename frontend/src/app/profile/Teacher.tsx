@@ -1,50 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { getUserProfile } from '@/api/userService';
-import Image from 'next/image';
-import user from '../../../public/user.png';
-import { UserData } from '../interfaces/profile/userdata.interface';
 
-interface TeacherData extends UserData {
-  bio: string;
-  experienceYears: number;
-  about: string;
-  degree: string;
-  speciality: string;
-  university: string;
-  studyYears: string;
-  additionalEducation: string;
-  mainWorkplace: string;
-  mainPosition: string;
-  mainWorkingYears: number;
-  otherExperience: string;
-  fullWorkExperience: number;
-}
+import Image from 'next/image';
 
 const TeacherProfile: React.FC = () => {
-  const [teacherData, setTeacherData] = useState<TeacherData | null>(null);
-  // const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [username, setUsername] = useState(teacherData?.username);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const data = await getUserProfile();
-        setTeacherData(data.user);
-      } catch (err) {
-        console.log(error);
-        setError(
-          err instanceof Error ? err.message : 'An unknown error occurred'
-        );
-      }
-      // } finally {
-      //   setLoading(false);
-      // }
-    };
-    fetchUserProfile();
-  }, []);
-
   return (
     <form className="space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
@@ -62,9 +20,7 @@ const TeacherProfile: React.FC = () => {
                   id="username"
                   name="username"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder={teacherData?.username || "Введіть ім'я профілю"}
+                  placeholder="Введіть ім'я профілю"
                   autoComplete="username"
                   className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -72,6 +28,7 @@ const TeacherProfile: React.FC = () => {
                   type="submit"
                   className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
                 >
+                  {' '}
                   Зберегти
                 </button>
               </form>
@@ -86,10 +43,11 @@ const TeacherProfile: React.FC = () => {
             </label>
             <div className="mt-2 flex items-center gap-x-3">
               <Image
-                aria-hidden="true"
+                src=""
                 className="h-24 w-24 text-gray-300"
-                src={user}
                 alt="user_picture"
+                width={300}
+                height={300}
               />
               <label
                 htmlFor="file-upload"
@@ -120,7 +78,7 @@ const TeacherProfile: React.FC = () => {
           маєте постійний доступ.
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <form className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="full-name"
@@ -128,15 +86,13 @@ const TeacherProfile: React.FC = () => {
             >
               Ім&apos;я, прізвище та по-батькові
             </label>
-            <form className="flex items-center mt-2">
-              <input
-                id="full-name"
-                name="full-name"
-                type="text"
-                autoComplete="name surname"
-                className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </form>
+            <input
+              id="full-name"
+              name="full-name"
+              type="text"
+              autoComplete="name surname"
+              className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
           </div>
 
           <div className="sm:col-span-3">
@@ -151,7 +107,6 @@ const TeacherProfile: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
-                placeholder={teacherData?.email}
                 autoComplete="email"
                 className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -199,7 +154,7 @@ const TeacherProfile: React.FC = () => {
               </form>
             </div>
           </div>
-        </div>
+        </form>
         <button
           type="submit"
           className="ml-0 mt-10 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
@@ -217,7 +172,7 @@ const TeacherProfile: React.FC = () => {
           місця роботи, адже вони перевірятимуться.
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <form className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="degree"
@@ -225,7 +180,7 @@ const TeacherProfile: React.FC = () => {
             >
               Рівень освіти
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="degree"
                 name="degree"
@@ -234,7 +189,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="degree"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -244,7 +199,7 @@ const TeacherProfile: React.FC = () => {
             >
               Спеціальність
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="speciality"
                 name="scpeciality"
@@ -253,7 +208,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="speciality"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -263,7 +218,7 @@ const TeacherProfile: React.FC = () => {
             >
               Навчальний заклад
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="university"
                 name="university"
@@ -272,7 +227,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="university"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -282,7 +237,7 @@ const TeacherProfile: React.FC = () => {
             >
               Дати навчання
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="study-years"
                 name="study-years"
@@ -290,7 +245,7 @@ const TeacherProfile: React.FC = () => {
                 type="text"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -306,7 +261,7 @@ const TeacherProfile: React.FC = () => {
               </p>
             </label>
 
-            <form className="flex items-center">
+            <div className="flex items-center">
               <textarea
                 id="add-education"
                 name="add-education"
@@ -314,9 +269,9 @@ const TeacherProfile: React.FC = () => {
                 placeholder="Наприклад: Київський Інститут Бізнесу та Технологій, економіка та менеджмент, 2015-2017; Всеукраїнський форум вчителів математики, 2019"
                 className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
-        </div>
+        </form>
         <button
           type="submit"
           className="ml-0 mt-10 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
@@ -334,7 +289,7 @@ const TeacherProfile: React.FC = () => {
           перевірятимуться.
         </p>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <form className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
               htmlFor="workplace"
@@ -342,7 +297,7 @@ const TeacherProfile: React.FC = () => {
             >
               Організація
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="workplace"
                 name="workplace"
@@ -351,7 +306,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="workplace"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -361,7 +316,7 @@ const TeacherProfile: React.FC = () => {
             >
               Посада
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="job"
                 name="job"
@@ -370,7 +325,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="job"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -380,7 +335,7 @@ const TeacherProfile: React.FC = () => {
             >
               Тривалість роботи (місяців)
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="working years"
                 name="working years"
@@ -389,7 +344,7 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="working years"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -403,7 +358,7 @@ const TeacherProfile: React.FC = () => {
               </p>
             </label>
 
-            <form className="flex items-center">
+            <div className="flex items-center">
               <textarea
                 id="add-education"
                 name="add-education"
@@ -411,7 +366,7 @@ const TeacherProfile: React.FC = () => {
                 placeholder="Наприклад: Київський Інститут Бізнесу та Технологій, декан факультету історії економіки, 2011-2020"
                 className="block w-full rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
 
           <div className="sm:col-span-3">
@@ -421,7 +376,7 @@ const TeacherProfile: React.FC = () => {
             >
               Загальний стаж роботи (років)
             </label>
-            <form className="flex items-center">
+            <div className="flex items-center">
               <input
                 id="experience years"
                 name="experience years"
@@ -430,9 +385,9 @@ const TeacherProfile: React.FC = () => {
                 autoComplete="experience years"
                 className="block flex-1 rounded-md border border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </form>
+            </div>
           </div>
-        </div>
+        </form>
         <button
           type="submit"
           className="ml-0 mt-10 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-white"
@@ -442,12 +397,6 @@ const TeacherProfile: React.FC = () => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
-          Cancel
-        </button>
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

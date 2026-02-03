@@ -1,107 +1,113 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { User } from 'src/users/user.model';
-import { JwtService } from './jwt/jwt.service';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
+import { Response, Request } from 'express';
+import { LoginDto } from './dto/login.dto';
+import { CreateUserDto } from 'src/users/dto/create.user.dto';
 import * as bcrypt from 'bcrypt';
-import { Logger } from '@nestjs/common';
-import { UnauthorizedException } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update.dto';
+import { UserDto } from 'src/users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(User) private readonly userModel: typeof User,
-    private readonly jwtService: JwtService,
+    private userService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<User | null> {
-    try {
-      const user = await this.userModel.findOne({ where: { username } });
-      if (user && (await bcrypt.compare(password, user.password))) {
-        return user;
-      }
-      return null;
-    } catch (error) {
-      console.error('Помилка валідації:', error);
-      Logger.debug(error);
-      throw new Error('Internal server error');
-    }
+  async signUp(
+    createUserDto: CreateUserDto,
+    res: Response,
+  ): Promise<{ user: any }> {
+    const { username, email, password, role } = createUserDto;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await this.userService.createUser({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    const payload = { sub: user.id, username: user.username };
+    const access_token = await this.jwtService.signAsync({ payload });
+
+    res.cookie('jwt', access_token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7 * 1000, // 7 days
+      path: '/',
+    });
+
+    res.status(201).json({ message: 'User successfully signed up' });
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    };
   }
 
-  async registerUser(
-    username: string,
-    email: string,
-    password: string,
-    role: 'student' | 'teacher' | 'admin',
-  ): Promise<{ user: User; token: string }> {
-    console.log('Password received:', password);
-    if (!password) {
-      throw new Error('Password is required');
-    }
-    const hashPassword = await bcrypt.hash(password, 10);
-    try {
-      const user = await this.userModel.create<User>({
-        username,
-        email,
-        password: hashPassword,
-        role,
-      } as User);
-      const token = await this.jwtService.generateToken(user);
-      return { user, token };
-    } catch (error) {
-      Logger.debug(error);
-      console.error('Виникла помилка при реєстрації користувача', error);
-      throw new Error('Виникла помилка при реєстрації користувача');
-    }
+  async login(loginDto: LoginDto, res: Response): Promise<{ user: any }> {
+    const { email, password } = loginDto;
+
+    const user = await this.userService.getUserByEmail(email);
+    if (!user) throw new UnauthorizedException('This email does not exist');
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) throw new UnauthorizedException('Invalid password');
+
+    const payload = { sub: user.id, username: user.username };
+    const access_token = await this.jwtService.signAsync(payload);
+
+    res.cookie('jwt', access_token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    res.status(201).json({ message: 'User successfully logged in' });
+
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    };
   }
 
-  async loginUser(username: string, password: string): Promise<string> {
+  async validateSession(
+    req: Request,
+  ): Promise<{ isAuthenticated: boolean; user?: object }> {
+    const token = req.cookies['jwt'];
+    if (!token) return { isAuthenticated: false };
+
     try {
-      // console.log('Спроба логіну для юзера:', username);
-      const user = await this.validateUser(username, password);
-      // console.log('Такий юзер існує:', username);
-      if (!user) throw new Error('Invalid credentials');
-      return this.jwtService.generateToken(user);
-    } catch (error) {
-      Logger.debug(error);
-      console.error('Помилка входу:', error);
-      throw new Error('Internal server error');
-    }
-  }
-  async verifyToken(token: string): Promise<Partial<User>> {
-    try {
-      const payload = this.jwtService.verifyToken(token);
-      const user = await this.userModel.findByPk(payload.sub);
+      const payload = await this.jwtService.verifyAsync(token);
+      const user = await this.userService.getUserById(payload.sub);
+
       if (!user) {
-        throw new UnauthorizedException('User not found');
+        return { isAuthenticated: false };
       }
-      const { password: _, ...userWithoutPassword } = user.toJSON();
-      return userWithoutPassword;
-    } catch (error) {
-      Logger.error('Token verification failed:', error);
-      throw new UnauthorizedException('Invalid token');
+
+      return {
+        isAuthenticated: true,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+      };
+    } catch (err) {
+      return { isAuthenticated: false };
     }
   }
 
-  async updateUser(userId: number, updateTdata: UpdateUserDto): Promise<User> {
-    try {
-      const user = await this.userModel.findByPk(userId);
-      if (!user) throw new Error('User not found');
-
-      const filteredUpdateData = Object.entries(updateTdata)
-        .filter(([_, value]) => value !== undefined)
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-
-      await user.update(filteredUpdateData);
-
-      await user.reload();
-
-      const { password: _, ...userWithoutPassword } = user.toJSON();
-      return userWithoutPassword as User;
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      Logger.error('Error updating user:', error);
-      throw new Error('Error while updating user');
-    }
+  async logout(res: Response): Promise<void> {
+    res.cookie('jwt', '', { maxAge: 0 });
+    res.status(200).json({ message: 'Successfully logged out' });
   }
 }

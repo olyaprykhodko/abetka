@@ -1,11 +1,11 @@
 'use client';
 
-import Navigation from '@/components/Navigation';
+import Navigation from '../../components/Navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import student from '../../../public/student.jpg';
 import teacher from '../../../public/teacher.webp';
-import Footer from '@/components/Footer';
+import Footer from '../../components/Footer';
 
 const Home = () => {
   return (

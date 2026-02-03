@@ -1,38 +1,9 @@
 'use client';
 
 import Sidebar from '../Sidebar';
-import { getUserProfile } from '@/api/userService';
-import React, { useState, useEffect } from 'react';
-import StudentNotifications from './StudentNotification';
-import TeacherNotifications from './TeacherNotifications';
 import Navigation from '@/components/Navigation';
 
-interface UserData {
-  id: number;
-  username: string;
-  email: string;
-  role: string;
-}
-
 const NotificationSettings: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const data = await getUserProfile();
-        setUserData(data.user);
-      } catch (err) {
-        console.log(error);
-        setError(
-          err instanceof Error ? err.message : 'An unknown error occurred'
-        );
-      }
-    };
-    fetchUserProfile();
-  }, []);
-
   return (
     <>
       <div className="bg-background relative overflow-hidden">
@@ -66,11 +37,9 @@ const NotificationSettings: React.FC = () => {
                 <Sidebar />
               </div>
               <div className="w-full md:w-3/4 md:pl-8">
-                {userData && (
-                  <h1 className="text-2xl font-bold mb-8">
-                    Налаштування сповіщень: {userData.role} {userData.username}
-                  </h1>
-                )}
+                <h1 className="text-2xl font-bold mb-8">
+                  Налаштування сповіщень:
+                </h1>
                 <div className="">
                   <p className="mt-1 text-base leading-6 text-gray-600">
                     Ми завжди повідомляємо вам тільки важливу інформацію, але ви
@@ -78,15 +47,14 @@ const NotificationSettings: React.FC = () => {
                   </p>
 
                   <div className="mt-10 space-y-10">
-                    <div className="mt-6 space-y-6">
+                    {/* <div className="mt-6 space-y-6">
                       {userData && userData.role === 'student' ? (
                         <StudentNotifications />
                       ) : userData && userData.role === 'teacher' ? (
                         <TeacherNotifications />
                       ) : (
                         <p>Завантаження налаштувань...</p>
-                      )}
-                    </div>
+                      )} */}
                   </div>
                 </div>
               </div>

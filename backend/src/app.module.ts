@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
 import { User } from './users/user.model';
@@ -9,9 +8,10 @@ import { Booking } from './bookings/booking.model';
 import { Schedule } from './schedules/schedule.model';
 import { Review } from './reviews/review.model';
 import { Payment } from './payments/payment.model';
-import { JwtModule } from './auth/jwt/jwt.module';
 import { MinioModule } from './minio/minio.module';
 import { FilesModule } from './files/files.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -36,11 +36,11 @@ import { FilesModule } from './files/files.module';
       Review,
       Payment,
     ]),
-    AuthModule,
-    JwtModule,
     HealthcheckModule,
     MinioModule,
     FilesModule,
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

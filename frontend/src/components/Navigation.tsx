@@ -1,13 +1,15 @@
 'use client';
-
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import abetkaLogo from '../../public/abetka-logo.svg';
-import notificationIcon from '../../public/notification-icon.png';
-import userLogo from '../../public/user.png';
+import { useAuth } from '@/app/context/AuthContext';
+import { usePathname } from 'next/navigation';
 
-const navbar = [
+import abetkaLogo from '../../public/abetka-logo.svg';
+import user_pic from '../../public/user.png';
+import notification_icon from '../../public/notification-icon.png';
+
+const initialNavbar = [
   { name: 'Головна', href: '/', current: true },
   { name: 'Знайти репетитора', href: '/teachers', current: false },
   { name: 'Вартість уроків', href: '/lessons', current: false },
@@ -16,48 +18,20 @@ const navbar = [
 ];
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [newNavbar, setNewNavbar] = useState(navbar);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND;
+  const [newNavbar, setNewNavbar] = useState(initialNavbar);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { isAuthenticated, loading, user, logout } = useAuth();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const updatedNavbar = newNavbar.map((item) => ({
+    const updatedNavbar = initialNavbar.map((item) => ({
       ...item,
-      current: item.href === location.pathname,
+      current: item.href === pathname,
     }));
     setNewNavbar(updatedNavbar);
-  }, []);
+  }, [pathname]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch(`${BACKEND_URL}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (response.ok) console.log('Logout successful');
-      else console.log('Logout failed');
-    } catch (error) {
-      console.error(error);
-    }
-
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-    window.location.reload();
-  };
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="container mx-0 flex justify-between items-center py-4">
@@ -85,6 +59,12 @@ const Navigation = () => {
         ))}
       </div>
 
+      {isAuthenticated ? (
+        <h1 className="text-green-400">USER IS LOGGED IN!!!</h1>
+      ) : (
+        <h2 className="text-red-400">TRY LOGIN</h2>
+      )}
+
       {/* Authentication Buttons */}
       <div className="flex items-center space-x-4">
         {!isAuthenticated ? (
@@ -96,7 +76,7 @@ const Navigation = () => {
               Увійти
             </Link>
             <Link
-              href="/register"
+              href="/signup"
               className="rounded-md px-3 py-2 text-base font-medium text-primary bg-yellow hover:bg-deepYellow hover:text-gray"
             >
               Зареєструватися
@@ -107,37 +87,43 @@ const Navigation = () => {
             {/* Notification */}
             <button className="relative">
               <Image
-                src={notificationIcon}
+                src={notification_icon}
                 alt="Notification"
                 className="h-6 w-6"
               />
             </button>
             {/* Profile Dropdown */}
             <div className="ml-4 relative">
-              <button onClick={toggleMenu}>
+              <button>
                 <Image
-                  src={userLogo}
+                  src={user_pic}
                   alt="User Profile"
                   className="h-8 w-8 rounded-full"
                 />
               </button>
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2">
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 text-sm text-gray-500">
+                    {user?.username}
+                  </div>
                   <Link
                     href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Профіль
                   </Link>
                   <Link
                     href="/settings"
-                    className="block px-4 py-2 text-sm text-gray-700"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Налаштування
                   </Link>
                   <button
-                    onClick={handleLogout}
-                    className="block px-4 py-2 text-sm text-gray-700"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      logout();
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Вийти
                   </button>
@@ -150,4 +136,5 @@ const Navigation = () => {
     </div>
   );
 };
+
 export default Navigation;
