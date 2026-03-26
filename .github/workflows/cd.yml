@@ -36,7 +36,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -47,15 +47,15 @@ jobs:
 
       - name: Dry-run Semantic Release
         id: release
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           dry_run: true
-          semantic_version: 24
+          semantic_version: 25
           extra_plugins: |
-            conventional-changelog-conventionalcommits@8.0.0
-            @semantic-release/github@10.3.5
+            conventional-changelog-conventionalcommits@9.3.0
+            @semantic-release/github@12.0.6
 
       - name: Get new release version or assign current
         run: |
@@ -98,7 +98,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install cosign
         if: github.event_name != 'pull_request'
@@ -185,7 +185,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create .env file
         run: |
@@ -237,17 +237,17 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          semantic_version: 24
+          semantic_version: 25
           extra_plugins: |
-            conventional-changelog-conventionalcommits@8.0.0
-            @semantic-release/github@10.3.5
+            conventional-changelog-conventionalcommits@9.3.0
+            @semantic-release/github@12.0.6
