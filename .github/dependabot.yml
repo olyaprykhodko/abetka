@@ -4,7 +4,7 @@ updates:
     open-pull-requests-limit: 10
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "quarterly"
     commit-message:
       prefix: "chore"
     labels:
@@ -17,7 +17,7 @@ updates:
     open-pull-requests-limit: 10
     directory: "frontend"
     schedule:
-      interval: "weekly"
+      interval: "quarterly"
     commit-message:
       prefix: "chore"
     labels:
@@ -27,7 +27,7 @@ updates:
     open-pull-requests-limit: 10
     directory: "backend"
     schedule:
-      interval: "weekly"
+      interval: "quarterly"
     commit-message:
       prefix: "chore"
     labels:
